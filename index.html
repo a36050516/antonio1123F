@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一飲讀心 - 情緒補給所 | AI情緒茶飲互動體驗</title>
+  <!-- 載入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 載入 Font Awesome 圖示庫 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- 載入 html2canvas 支援網頁與飲品卡截圖下載 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Google Fonts: Noto Sans TC & Zen Maru Gothic -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #f3e8ff 0%, #e0f2fe 50%, #fce7f3 100%);
+      min-height: 100vh;
+    }
+    .font-cute {
+      font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+    }
+    /* 隱藏捲軸但保留滾動功能 */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* 滑桿自訂樣式 */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #9333ea;
+      cursor: pointer;
+      margin-top: -7px;
+      box-shadow: 0 2px 6px rgba(147, 51, 234, 0.4);
+      border: 2px solid white;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: #e9d5ff;
+      border-radius: 999px;
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-float {
+      animation: floatSlow 3.5s ease-in-out infinite;
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-card {
+      animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+
+<style id="v5-arcade-style">
+:root{--v5-purple:#7c3aed;--v5-pink:#ec4899;--v5-ink:#23223e;--v5-muted:#6c6a87;--v5-line:#e9e2f7}
+body{background:radial-gradient(circle at 12% 16%,#f4d8f5 0,transparent 35%),radial-gradient(circle at 88% 80%,#cff4ee 0,transparent 37%),#eaf0fc}
+#arcade-app{width:100%;max-width:480px;height:min(96dvh,920px);min-height:540px;background:#fff;border-radius:32px;box-shadow:0 20px 70px #483d6a35;overflow:hidden;display:flex;flex-direction:column;border:1px solid #fff;color:var(--v5-ink)}
+#arcade-app[hidden]{display:none!important}
+.v5-head{padding:15px 18px 12px;background:linear-gradient(120deg,#faf1ff,#fff4fb 55%,#eefbff);border-bottom:1px solid var(--v5-line);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.v5-brand{font-weight:900;font-size:19px;letter-spacing:.04em;background:linear-gradient(90deg,#6d28d9,#db2777);color:transparent;background-clip:text}
+.v5-sub{font-size:10px;font-weight:700;color:#8f7b9d}.v5-screen{flex:1;overflow-y:auto;padding:18px 18px 24px;scrollbar-width:thin}
+.v5-hero{border-radius:26px;background:linear-gradient(135deg,#8b5cf6,#d946a3 62%,#fca5a5);color:#fff;padding:22px 17px;min-height:205px;position:relative;overflow:hidden}
+.v5-hero::after{content:'✦';font-size:120px;position:absolute;right:-9px;top:10px;color:#ffffff2d;transform:rotate(-15deg)}
+.v5-kicker{font-size:11px;letter-spacing:.15em;font-weight:900;opacity:.85}.v5-big{font-size:29px;line-height:1.25;font-weight:950;letter-spacing:.01em}
+.v5-muted{font-size:13px;color:var(--v5-muted);line-height:1.65}.v5-white{color:#fdf4ff}.v5-btn{border:0;border-radius:16px;min-height:51px;padding:12px 15px;font-size:14px;font-weight:900;cursor:pointer;transition:transform .12s,filter .12s;background:linear-gradient(100deg,#7c3aed,#e43e9f);color:white;box-shadow:0 7px 14px #a855f733}
+.v5-btn:active{transform:scale(.98)}.v5-btn:disabled{background:#ced1db;box-shadow:none;color:#737789;cursor:not-allowed}.v5-secondary{background:white;color:#7438d5;box-shadow:none;border:2px solid #eadcfb}.v5-btn:focus-visible,.v5-card:focus-visible,.v5-ingredient:focus-visible{outline:3px solid #0891b2;outline-offset:3px}
+.v5-card{border:1px solid var(--v5-line);border-radius:18px;padding:14px;background:#fff;box-shadow:0 6px 20px #4f43990c}
+.v5-soft{border-radius:18px;padding:15px;background:linear-gradient(115deg,#faf3ff,#f2f9ff);border:1px solid #eee5f7}
+.v5-title{font-size:21px;font-weight:950;letter-spacing:-.02em}.v5-stat{padding:10px 12px;border-radius:15px;background:#f6f1ff;border:1px solid #ebdcff}
+.v5-tag{border-radius:99px;background:#f3e8ff;color:#6d28d9;padding:5px 9px;font-size:11px;font-weight:900;display:inline-block}
+.v5-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.v5-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.v5-order{padding:18px;background:linear-gradient(130deg,#fff,#fbf2ff);border-radius:22px;border:2px dashed #d8b4fe;text-align:center}
+.v5-progress{height:8px;border-radius:20px;background:#eee9f9;overflow:hidden}.v5-progress>div{height:100%;border-radius:20px;background:linear-gradient(90deg,#a855f7,#ec4899);transition:width .2s}
+.v5-stage{height:304px;max-height:45vh;min-height:250px;position:relative;overflow:hidden;border:2px solid #e9dafc;border-radius:23px;background:linear-gradient(#f9f0ff,#edfaff 70%,#e2f1fb);touch-action:none;user-select:none}
+.v5-stage::after{content:'';position:absolute;left:0;right:0;bottom:28px;border-top:2px dashed #c6b6e9;pointer-events:none}
+.v5-fall{position:absolute;top:0;left:0;transform:translate(-50%,-50%);min-width:52px;max-width:82px;border-radius:13px;border:1px solid #ffffffa8;background:#ffffffeb;box-shadow:0 4px 10px #a78bfa42;padding:7px 5px;font-size:13px;font-weight:850;text-align:center;white-space:nowrap;pointer-events:none}
+.v5-fall.good{color:#0f766e}.v5-fall.bad{color:#be185d}.v5-player{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:100px;text-align:center;font-size:50px;line-height:60px;z-index:5;pointer-events:none;filter:drop-shadow(0 6px 2px #4c1d9540)}
+.v5-choice{background:#fff;border:2px solid #eadcfb;border-radius:15px;min-height:68px;padding:9px 5px;font-weight:850;font-size:12px;line-height:1.4;cursor:pointer;color:#433467}
+.v5-choice.selected{background:#e9d5ff;border-color:#7c3aed}.v5-choice:disabled{cursor:default;opacity:.65}.v5-choice.correct{border-color:#10b981;background:#dcfce7}.v5-choice.wrong{border-color:#fb7185;background:#ffe4e6}
+.v5-ingredient{border-radius:17px;padding:10px 4px;font-size:12px;min-height:72px;border:2px solid #e9d5ff;background:#fff;cursor:grab;touch-action:none;font-weight:850;color:#51378b;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;text-align:center}
+.v5-ingredient.used{background:#dcfce7;border-color:#10b981;color:#047857;cursor:default}.v5-ingredient .symbol{font-size:22px}
+.v5-cupzone{border-radius:21px;border:2px dashed #c4b5fd;background:linear-gradient(#faf5ff,#f0f9ff);min-height:190px;padding:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.v5-cup{width:100px;height:130px;clip-path:polygon(9% 0,91% 0,77% 100%,23% 100%);background:linear-gradient(145deg,#ffffffbb,#f9a8d4,#c084fc);display:flex;align-items:center;justify-content:center;color:#6b21a8;font-size:14px;font-weight:1000;filter:drop-shadow(0 3px 4px #94a3b8)}
+.v5-shake{animation:v5wiggle .23s ease-in-out 2}@keyframes v5wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+.v5-alert{border-radius:13px;padding:11px 13px;background:#fff8e7;border:1px solid #fde68a;color:#92400e;font-size:12px;font-weight:750}
+.v5-pill{border-radius:99px;background:#f3e8ff;color:#6b21a8;font-size:11px;padding:6px 10px;font-weight:850}
+.v5-stars{font-size:42px;line-height:1.2}.v5-gift{font-size:95px;text-align:center;line-height:1.3;filter:drop-shadow(0 9px 10px #a855f766)}
+.v5-result-card{border-radius:23px;background:linear-gradient(130deg,#fbe9f5,#f2e9ff,#e5f5ff);padding:18px;border:1px solid white}
+.v5-footer{font-size:10px;color:#9987a9;display:flex;justify-content:space-between;padding:10px 18px;background:#faf9ff;border-top:1px solid #eee7fc}
+.v5-modal{position:fixed;inset:0;background:#18102f99;display:flex;align-items:center;justify-content:center;padding:17px;z-index:10000}.v5-modal[hidden]{display:none}.v5-modal .v5-card{max-width:430px;width:100%;max-height:85dvh;overflow:auto}
+/* Arcades function even when Tailwind CDN is unavailable (local/offline HTML). */
+#arcade-app .w-full{width:100%}#arcade-app .text-center{text-align:center}#arcade-app .text-right{text-align:right}
+#arcade-app .flex{display:flex}#arcade-app .justify-between{justify-content:space-between}#arcade-app .items-center{align-items:center}
+#arcade-app .mt-1{margin-top:4px}#arcade-app .mt-2{margin-top:8px}#arcade-app .mt-3{margin-top:12px}#arcade-app .mt-4{margin-top:16px}#arcade-app .mt-5{margin-top:20px}#arcade-app .mt-6{margin-top:24px}
+#arcade-app .mb-1{margin-bottom:4px}#arcade-app .mb-2{margin-bottom:8px}#arcade-app .mb-3{margin-bottom:12px}#arcade-app .mb-4{margin-bottom:16px}
+#arcade-app .space-y-2>*+*{margin-top:8px}#arcade-app .space-y-3>*+*{margin-top:12px}
+#arcade-app .text-xs{font-size:12px}#arcade-app .text-sm{font-size:14px}#arcade-app .text-lg{font-size:18px}#arcade-app .text-xl{font-size:20px}
+#arcade-app .text-2xl{font-size:24px}#arcade-app .text-3xl{font-size:30px}#arcade-app .text-4xl{font-size:36px}#arcade-app .text-5xl{font-size:46px}#arcade-app .text-6xl{font-size:60px}
+#arcade-app .font-black{font-weight:900}#arcade-app .font-bold{font-weight:750}#arcade-app .font-semibold{font-weight:600}
+#arcade-app .text-purple-700{color:#7c3aed}#arcade-app .text-purple-800{color:#6b21a8}#arcade-app .text-slate-500{color:#64748b}
+#arcade-app .leading-relaxed{line-height:1.65}
+@media(max-width:520px){body{padding:0!important}#arcade-app{height:100dvh;max-height:none;border-radius:0;min-height:0}#app-shell{max-height:100dvh;border-radius:0}.v5-screen{padding:13px 15px 25px}.v5-stage{height:275px}}
+@media(prefers-reduced-motion:reduce){.v5-btn,.v5-progress>div{transition:none}.v5-shake{animation:none}}
+</style>
+</head>
+<body class="flex items-center justify-center p-2 sm:p-4 text-slate-800">
+
+  
+<div id="arcade-app" aria-label="一飲讀心極速特調盲盒遊戲">
+  <header class="v5-head"><div><div class="v5-brand">一飲讀心 <span style="font-size:12px;color:#c026d3">ARCADE</span></div><div class="v5-sub">情緒補給所 · 極速特調盲盒 V5</div></div><button type="button" id="v5-home-btn" class="v5-btn v5-secondary" style="min-height:36px;font-size:11px;padding:7px 10px" onclick="Arcade.confirmHome()">首頁</button></header>
+  <main id="v5-content" class="v5-screen"></main>
+  <footer class="v5-footer"><span>概念品牌互動體驗・無實際訂單</span><span>讀心特調隊</span></footer>
+</div>
+<div id="v5-modal" class="v5-modal" hidden><div class="v5-card"><div id="v5-modal-body"></div><button class="v5-btn v5-secondary mt-3 w-full" onclick="Arcade.closeModal()">關閉</button></div></div>
+
+  <!-- 模擬直立式互動 Kiosk / 手機 App 容器 -->
+  <div id="app-shell" style="display:none" class="w-full max-w-md bg-white/95 backdrop-blur-xl rounded-[2.2rem] shadow-2xl border border-white/80 overflow-hidden flex flex-col max-h-[94vh]">
+    
+    <!-- 頂部品牌導覽列 -->
+    <header class="px-5 pt-4 pb-3 bg-gradient-to-r from-purple-50 via-pink-50 to-sky-50 border-b border-purple-100/70 shrink-0">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center text-white shadow-md">
+            <i class="fa-solid fa-mug-hot text-sm"></i>
+          </div>
+          <div>
+            <h1 class="font-cute font-black text-lg tracking-wide bg-gradient-to-r from-purple-700 to-pink-600 bg-clip-text text-transparent">
+              一飲讀心
+            </h1>
+            <p class="text-[11px] text-slate-500 font-medium">情緒補給所 • 概念店</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <!-- 當前已選心情小標籤 -->
+          <div id="header-mood-badge" class="px-3 py-1 rounded-full bg-white/90 border border-purple-200 text-xs font-bold text-purple-700 shadow-sm flex items-center gap-1.5">
+            <span>😌</span>
+            <span id="header-mood-text">放鬆平靜</span>
+          </div>
+          <!-- 支援直接匯入 01.png~04.png 原圖按鈕 -->
+          <label for="upload-custom-cards" title="匯入 01.png~04.png 原圖" class="cursor-pointer w-7 h-7 rounded-full bg-purple-100 hover:bg-purple-200 text-purple-700 flex items-center justify-center text-xs transition-colors shadow-sm">
+            <i class="fa-solid fa-image"></i>
+          </label>
+          <input type="file" id="upload-custom-cards" accept="image/*" multiple class="hidden" onchange="handleCustomCardUpload(event)">
+        </div>
+      </div>
+
+      <button type="button" onclick="Arcade.backHome()" class="text-[11px] text-purple-700 font-bold underline mt-1">← 返回雙模式首頁</button>
+      <!-- 步驟進度條 -->
+      <div class="mt-3 grid grid-cols-5 gap-1.5 text-center">
+        <div id="step-tab-1" class="text-[10px] font-bold py-1 rounded-lg bg-purple-600 text-white shadow-sm transition-all">1.今日心情</div>
+        <div id="step-tab-2" class="text-[10px] font-bold py-1 rounded-lg bg-purple-100/80 text-purple-500 transition-all">2.口味體感</div>
+        <div id="step-tab-3" class="text-[10px] font-bold py-1 rounded-lg bg-purple-100/80 text-purple-500 transition-all">3.AI推薦</div>
+        <div id="step-tab-4" class="text-[10px] font-bold py-1 rounded-lg bg-purple-100/80 text-purple-500 transition-all">4.專屬微調</div>
+        <div id="step-tab-5" class="text-[10px] font-bold py-1 rounded-lg bg-purple-100/80 text-purple-500 transition-all">5.飲品卡</div>
+      </div>
+    </header>
+
+    <!-- 主要互動內容區 -->
+    <main class="flex-1 overflow-y-auto no-scrollbar p-5 space-y-5 relative">
+
+      <!-- ==================== 步驟 1：首頁詢問今日心情狀況 ==================== -->
+      <section id="step-1" class="space-y-4 animate-card">
+        <div class="text-center space-y-1.5 pt-1">
+          <span class="inline-block px-3 py-0.5 rounded-full bg-purple-100 text-purple-700 text-[11px] font-bold">
+            ✨ 一杯專屬於你心情的飲品，從這裡開始
+          </span>
+          <h2 class="font-cute font-black text-xl text-slate-800">嗨！你今天的心情狀況如何呢？</h2>
+          <p class="text-xs text-slate-500">先點選最貼近你當下狀態的心情，AI 將為你準備專屬療癒配方</p>
+        </div>
+
+        <!-- 6 大情緒雙欄卡片 -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <button type="button" onclick="selectMood('happy', '😊', '開心活力')" data-mood="happy" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">😊</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">開心活力</div>
+              <div class="text-[11px] text-slate-400">像陽光一樣閃亮</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('relax', '😌', '放鬆平靜')" data-mood="relax" class="mood-btn p-3.5 rounded-2xl border-2 border-purple-500 bg-purple-50/90 shadow-md scale-[1.02] transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">😌</span>
+            <div>
+              <div class="text-sm font-black text-purple-900">放鬆平靜</div>
+              <div class="text-[11px] text-purple-600">慢一點也很溫柔</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('focus', '🧐', '專注備考')" data-mood="focus" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">🧐</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">專注備考</div>
+              <div class="text-[11px] text-slate-400">需要清晰思緒與提神</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('social', '🥰', '社交微甜')" data-mood="social" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">🥰</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">社交微甜</div>
+              <div class="text-[11px] text-slate-400">與朋友分享溫暖時光</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('anxious', '😖', '焦慮緊繃')" data-mood="anxious" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">😖</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">焦慮緊繃</div>
+              <div class="text-[11px] text-slate-400">壓力有點大需要安撫</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('tired', '🥱', '疲憊充電')" data-mood="tired" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">🥱</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">疲憊充電</div>
+              <div class="text-[11px] text-slate-400">電力不足急需補元氣</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('sad', '😢', '傷心憂鬱')" data-mood="sad" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">😢</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">傷心憂鬱</div>
+              <div class="text-[11px] text-slate-400">心裡悶悶的需要擁抱</div>
+            </div>
+          </button>
+
+          <button type="button" onclick="selectMood('angry', '😤', '生氣煩躁')" data-mood="angry" class="mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left">
+            <span class="text-3xl shrink-0">😤</span>
+            <div>
+              <div class="text-sm font-black text-slate-800">生氣煩躁</div>
+              <div class="text-[11px] text-slate-400">火氣有點大需要降溫</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- AI 讀心師即時共感回應 -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="text-xs leading-relaxed">
+            <div class="font-bold text-purple-800">AI 讀心師回應：</div>
+            <div id="mood-empathy-text" class="text-slate-600">慢一點也是一種溫柔，讓天然薰衣草與洋甘菊陪你好好沉澱。</div>
+          </div>
+        </div>
+
+        <button type="button" onclick="goToStep(2)" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-200 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+          <span>下一步：設定口味與飲品體感</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </section>
+
+      <!-- ==================== 步驟 2：設定口味、甜度與飲品體感說明 ==================== -->
+      <section id="step-2" class="space-y-4 hidden animate-card">
+        <div class="flex items-center justify-between bg-purple-50/80 px-3.5 py-2 rounded-2xl border border-purple-100">
+          <div class="text-xs font-bold text-purple-800">
+            已選今日心情：<span id="step2-mood-summary" class="text-pink-600">😌 放鬆平靜</span>
+          </div>
+          <button type="button" onclick="goToStep(1)" class="text-[11px] text-purple-600 underline font-medium">更換心情</button>
+        </div>
+
+        <!-- 1. 選擇喜愛口味基調 -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-leaf text-purple-600"></i> 1. 選擇喜愛的口味基調
+          </label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="selectFlavor('floral', '柔和花香')" data-flavor="floral" class="flavor-btn py-2.5 px-1 rounded-xl border-2 border-purple-500 bg-purple-50 text-purple-800 font-bold text-xs flex flex-col items-center gap-1 shadow-sm">
+              <span class="text-base">🪻</span>
+              <span>柔和花香</span>
+            </button>
+            <button type="button" onclick="selectFlavor('fruity', '清新果香')" data-flavor="fruity" class="flavor-btn py-2.5 px-1 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium text-xs flex flex-col items-center gap-1">
+              <span class="text-base">🍊</span>
+              <span>清新果香</span>
+            </button>
+            <button type="button" onclick="selectFlavor('herbal', '草本茶韻')" data-flavor="herbal" class="flavor-btn py-2.5 px-1 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium text-xs flex flex-col items-center gap-1">
+              <span class="text-base">🌿</span>
+              <span>草本茶韻</span>
+            </button>
+            <button type="button" onclick="selectFlavor('sweet', '蜜桃甘甜')" data-flavor="sweet" class="flavor-btn py-2.5 px-1 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium text-xs flex flex-col items-center gap-1">
+              <span class="text-base">🍑</span>
+              <span>蜜桃甘甜</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. 選擇甜度偏好 -->
+        <div class="space-y-2 bg-slate-50/90 p-3.5 rounded-2xl border border-slate-100">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+              <i class="fa-solid fa-sliders text-purple-600"></i> 2. 選擇甜度比例
+            </label>
+            <span id="sugar-label" class="text-xs font-black text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full">微糖 (30%)</span>
+          </div>
+          <input id="sugar-range" type="range" min="0" max="4" value="1" oninput="updateSugar(this.value)" class="w-full my-1">
+          <div class="flex justify-between text-[10px] text-slate-400 font-bold px-1">
+            <span>無糖</span>
+            <span>微糖</span>
+            <span>半糖</span>
+            <span>少糖</span>
+            <span>全糖</span>
+          </div>
+        </div>
+
+        <!-- 3. 飲品體感類型與詳細說明 -->
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-wand-magic-sparkles text-purple-600"></i> 3. 飲品體感類型（點擊查看各體感特色說明）
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="selectType('三感情調')" data-type="三感情調" class="type-btn p-2.5 rounded-xl border-2 border-purple-500 bg-purple-50 text-left transition-all shadow-sm">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-purple-800">
+                <i class="fa-solid fa-wand-sparkles text-pink-500"></i>
+                <span>三感情調</span>
+              </div>
+              <div class="text-[10px] text-purple-600 mt-0.5">視覺漸層 × 食用香氛噴霧</div>
+            </button>
+
+            <button type="button" onclick="selectType('清爽氣泡')" data-type="清爽氣泡" class="type-btn p-2.5 rounded-xl border border-slate-200 bg-white text-left transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-700">
+                <i class="fa-solid fa-champagne-glasses text-sky-500"></i>
+                <span>清爽氣泡</span>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-0.5">綿密微氣泡 × 暢快醒腦</div>
+            </button>
+
+            <button type="button" onclick="selectType('原葉茶飲')" data-type="原葉茶飲" class="type-btn p-2.5 rounded-xl border border-slate-200 bg-white text-left transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-700">
+                <i class="fa-solid fa-seedling text-emerald-500"></i>
+                <span>原葉茶飲</span>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-0.5">冷萃回甘茶湯 × 零負擔</div>
+            </button>
+
+            <button type="button" onclick="selectType('雲朵奶蓋')" data-type="雲朵奶蓋" class="type-btn p-2.5 rounded-xl border border-slate-200 bg-white text-left transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-700">
+                <i class="fa-solid fa-cloud text-amber-500"></i>
+                <span>雲朵奶蓋</span>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-0.5">綿密輕盈奶霜 × 溫潤包覆</div>
+            </button>
+          </div>
+
+          <!-- 動態顯示該體感類型的詳細說明框 -->
+          <div class="p-3 rounded-xl bg-purple-50/70 border border-purple-100 text-xs text-slate-700 flex items-start gap-2">
+            <i class="fa-solid fa-circle-info text-purple-600 mt-0.5 shrink-0"></i>
+            <p id="type-detail-desc" class="leading-relaxed">
+              <span class="font-bold text-purple-800">三感情調：</span>結合夢幻花青素漸層、鮮果層次與杯口專屬食用級香氛噴霧，打造兼具視覺、嗅覺與味覺的沉浸式無酒精特調。
+            </p>
+          </div>
+        </div>
+
+        <button type="button" onclick="startAiAnalysis()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-200 hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>啟動 AI 情緒解碼與氣味配對</span>
+        </button>
+      </section>
+
+      <!-- ==================== AI 動態解碼過場畫面 ==================== -->
+      <section id="ai-loading" class="py-16 text-center space-y-4 hidden">
+        <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-purple-600 to-pink-500 mx-auto flex items-center justify-center text-white text-3xl shadow-xl animate-bounce">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="space-y-1">
+          <h3 class="font-cute font-black text-lg text-purple-900">AI 正在解碼您的情緒與氣味分子...</h3>
+          <p id="ai-loading-step" class="text-xs text-slate-500">正在分析今日心情頻率...</p>
+        </div>
+      </section>
+
+      <!-- ==================== 步驟 3：AI 推薦飲品與機能解析 ==================== -->
+      <section id="step-3" class="space-y-4 hidden animate-card">
+        <div class="flex items-center justify-between">
+          <div>
+            <span id="rec-mood-tag" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700">🌙 放鬆平靜專屬</span>
+            <h2 id="rec-drink-name" class="font-cute font-black text-xl text-slate-800 mt-0.5">星河放鬆茶</h2>
+            <p id="rec-ingredients" class="text-xs text-slate-500 font-medium">薰衣草 × 洋甘菊 × 藍莓</p>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] text-slate-400 font-bold">企劃售價</div>
+            <div id="rec-price" class="font-cute font-black text-xl text-purple-700">NT$ 65</div>
+          </div>
+        </div>
+
+        <!-- 對應飲品卡視覺展示區 -->
+        <div id="rec-visual-container" class="rounded-3xl overflow-hidden border-2 border-purple-100 shadow-md"></div>
+
+        <!-- 專屬調配機能與身心助益說明（幫助消費者了解與選擇） -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50 to-sky-50 border border-emerald-200/80 space-y-1.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black text-emerald-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-heart-pulse text-emerald-600"></i> 專屬調配機能與身心助益
+            </span>
+            <span id="rec-benefit-tag" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white">舒壓平靜 • 緩解緊繃</span>
+          </div>
+          <p id="rec-benefit-desc" class="text-xs text-slate-700 leading-relaxed"></p>
+        </div>
+
+        <!-- 三感體驗配方解析 -->
+        <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-100 space-y-2 text-xs">
+          <div class="font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-flask text-purple-600"></i> 三感融合配方解析
+          </div>
+          <div class="grid grid-cols-1 gap-1.5 text-slate-600">
+            <div><strong class="text-purple-700">👃 嗅覺前導：</strong><span id="rec-scent-desc"></span></div>
+            <div><strong class="text-pink-600">👅 味覺層次：</strong><span id="rec-taste-desc"></span></div>
+            <div><strong class="text-indigo-600">👁️ 視覺療癒：</strong><span id="rec-visual-desc"></span></div>
+          </div>
+        </div>
+
+        <!-- 切換查看其他情緒特調 -->
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-bold text-slate-400">想嘗試其他心情特調？點擊可直接切換：</div>
+          <div id="alt-drinks-list" class="grid grid-cols-3 gap-2"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1">
+          <button type="button" onclick="goToStep(2)" class="py-3 rounded-2xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50">
+            返回重選偏好
+          </button>
+          <button type="button" onclick="goToStep(4)" class="py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-xs shadow-md hover:opacity-95">
+            下一步：專屬微調 <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== 步驟 4：確認與微調客製搭配 ==================== -->
+      <section id="step-4" class="space-y-4 hidden animate-card">
+        <div class="p-3.5 rounded-2xl bg-purple-50/90 border border-purple-100 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span id="custom-icon" class="text-xl">🌙</span>
+              <span id="custom-drink-name" class="font-cute font-black text-base text-slate-800">星河放鬆茶</span>
+            </div>
+            <span id="custom-base-price" class="font-cute font-black text-base text-purple-700">NT$ 65</span>
+          </div>
+          <div id="custom-scent-summary" class="text-[11px] text-purple-700 font-medium"></div>
+          <div id="custom-benefit-summary" class="text-[11px] text-emerald-700 bg-white/80 px-2.5 py-1 rounded-lg border border-emerald-100"></div>
+        </div>
+
+        <!-- 1. 風味微調 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-700">1. 風味層次微調（免費客製）</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="selectExtraFlavor('原味黃金比例')" data-val="原味黃金比例" class="extra-flavor-btn py-2 px-2 rounded-xl border-2 border-purple-500 bg-purple-50 text-xs font-bold text-purple-700">原味比例</button>
+            <button type="button" onclick="selectExtraFlavor('+鮮榨檸檬香')" data-val="+鮮榨檸檬香" class="extra-flavor-btn py-2 px-2 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600">+鮮榨檸檬</button>
+            <button type="button" onclick="selectExtraFlavor('+百香果果韻')" data-val="+百香果果韻" class="extra-flavor-btn py-2 px-2 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600">+百香果韻</button>
+          </div>
+        </div>
+
+        <!-- 2. 口感配料選擇 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-700">2. 咀嚼口感配料（全品項價格鎖定 NT$60~65）</label>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button type="button" onclick="selectTopping('無配料', 0)" data-top="無配料" class="topping-btn py-2 px-1 rounded-xl border-2 border-purple-500 bg-purple-50 text-xs font-bold text-purple-700">無配料</button>
+            <button type="button" onclick="selectTopping('白玉珍珠', 5)" data-top="白玉珍珠" class="topping-btn py-2 px-1 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600">白玉珍珠</button>
+            <button type="button" onclick="selectTopping('清脆椰果', 5)" data-top="清脆椰果" class="topping-btn py-2 px-1 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600">清脆椰果</button>
+            <button type="button" onclick="selectTopping('低卡寒天', 5)" data-top="低卡寒天" class="topping-btn py-2 px-1 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600">低卡寒天</button>
+          </div>
+        </div>
+
+        <!-- 3. 草本機能升級 -->
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-700">3. 漢方草本機能升級</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="selectBoost('標準天然茶萃', 0)" data-boost="標準天然茶萃" class="boost-btn p-2.5 rounded-xl border-2 border-purple-500 bg-purple-50 text-left">
+              <div class="text-xs font-bold text-purple-700">標準天然茶萃</div>
+              <div class="text-[10px] text-purple-500">溫和順口日常補給</div>
+            </button>
+            <button type="button" onclick="selectBoost('GABA / 茶氨酸加萃', 5)" data-boost="GABA / 茶氨酸加萃" class="boost-btn p-2.5 rounded-xl border border-slate-200 bg-white text-left">
+              <div class="text-xs font-bold text-slate-700">GABA / 茶氨酸加萃</div>
+              <div class="text-[10px] text-slate-400">深度舒緩壓力與提振專注</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-500 flex items-center justify-between px-1">
+          <span>已選甜度：<strong id="custom-sugar-display" class="text-purple-700">微糖 (30%)</strong></span>
+          <span>售價區間保證：<strong class="text-emerald-600">NT$ 60 ~ 65</strong></span>
+        </div>
+
+        <button type="button" onclick="generateFinalCard()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-200 hover:opacity-95 transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-check-circle"></i>
+          <span>確認訂單 • 生成專屬今日心情飲品卡</span>
+        </button>
+      </section>
+
+      <!-- ==================== 步驟 5：專屬今日心情飲品卡與截圖分享 ==================== -->
+      <section id="step-5" class="space-y-4 hidden animate-card">
+        <!-- 單獨截圖擷取範圍：僅截取純粹的「今日心情飲品卡」本體，不包含其他區塊 -->
+        <div class="rounded-[2rem] bg-white p-2 border-2 border-purple-100 shadow-lg">
+          <div id="final-card-visual" class="rounded-[1.5rem] overflow-hidden"></div>
+        </div>
+
+        <!-- 獨立於飲品卡外的「今日心情密語」（不納入截圖範圍） -->
+        <div class="bg-amber-50/90 rounded-2xl p-3.5 border border-amber-200/80 flex items-start gap-2.5 shadow-sm">
+          <span class="text-lg shrink-0 mt-0.5">🎋</span>
+          <div class="text-xs space-y-0.5">
+            <div class="font-black text-amber-900">今日心情密語：</div>
+            <div id="final-fortune-text" class="text-amber-800 font-medium leading-relaxed"></div>
+          </div>
+        </div>
+
+        <!-- 獨立於飲品卡下方的調配明細（不納入截圖範圍） -->
+        <div class="bg-purple-50/60 rounded-2xl p-3.5 border border-purple-100 space-y-2.5 shadow-sm">
+          <div class="flex items-center justify-between border-b border-purple-100 pb-2">
+            <span class="text-xs font-black text-slate-700 flex items-center gap-1.5">
+              <i class="fa-solid fa-receipt text-purple-600"></i> 調配明細
+            </span>
+            <span id="final-total-price" class="font-cute font-black text-lg text-purple-700">NT$ 65</span>
+          </div>
+
+          <div class="bg-white rounded-xl p-2.5 text-xs space-y-1 text-slate-600 border border-purple-50">
+            <div><strong class="text-slate-800">飲品名稱：</strong><span id="final-drink-title"></span></div>
+            <div><strong class="text-slate-800">客製規格：</strong><span id="final-custom-specs"></span></div>
+            <div><strong class="text-slate-800">香氛噴霧：</strong><span id="final-scent-spray"></span></div>
+          </div>
+        </div>
+
+        <!-- 截圖下載與複製分享按鈕 -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <button id="btn-download-img" type="button" onclick="downloadCardScreenshot()" class="py-3 px-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold text-xs shadow-md hover:opacity-95 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-camera"></i>
+            <span>截取下載飲品卡</span>
+          </button>
+          <button type="button" onclick="copyShareRecipe()" class="py-3 px-3 rounded-2xl bg-pink-500 text-white font-bold text-xs shadow-md hover:opacity-95 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>複製心情配方</span>
+          </button>
+        </div>
+
+        <button type="button" onclick="goToStep(1)" class="w-full py-2.5 rounded-xl border border-slate-200 text-slate-500 font-bold text-xs hover:bg-slate-50">
+          <i class="fa-solid fa-rotate-right mr-1"></i> 重新體驗其他心情特調
+        </button>
+      </section>
+
+    </main>
+
+    <!-- 底部品牌資訊列 -->
+    <footer class="px-5 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
+      <span>AI 情緒特調體驗 • 讀心特調隊</span>
+      <span class="font-bold text-purple-600 flex items-center gap-1">
+        <i class="fa-solid fa-mug-saucer"></i> 一飲讀心
+      </span>
+    </footer>
+  </div>
+
+  <!-- 輕量提示 Toast 視窗（取代 alert） -->
+  <div id="toast-box" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-full bg-slate-900/90 text-white text-xs font-bold shadow-xl opacity-0 pointer-events-none transition-all duration-300 z-50">
+    提示訊息
+  </div>
+
+  <script>
+    // ================= 四款核心情緒飲品資料庫（售價 60~65元 & 12組今日心情密語） =================
+    const DRINKS_DB = {
+      sunshine: {
+        id: 'sunshine',
+        name: '陽光果氣泡茶',
+        moodTitle: '開心活力',
+        moodEn: 'HAPPY ENERGY',
+        icon: '☀️',
+        price: 60,
+        ingredients: '柳橙 × 百香果 × 茉莉綠茶',
+        quote: '「今天的你，像陽光一樣閃亮！♡」',
+        scentDesc: '甜橙果皮精油 × 陽光柑橘香氛薄霧',
+        tasteDesc: '柳橙 × 百香果 × 茉莉綠茶。酸甜清新，像陽光灑落的好心情！',
+        visualDesc: '金澄漸層氣泡搭配新鮮柳橙切片，視覺明亮充滿朝氣',
+        benefitTag: '元氣提振 • 維生素C補給',
+        benefitDesc: '富含天然鮮果維生素C與綠茶多酚，綿密氣泡能瞬間喚醒味蕾、掃除疲態，無市售罐裝能量飲的人工化學感。',
+        imageUrl: '01.png',
+        altImageUrls: ['01.png', 'ChatGPT 圖像 2026年10月26日 下午01_54_27-1.png'],
+        theme: {
+          bgGrad: 'from-amber-100 via-orange-50 to-pink-100',
+          titleColor: 'text-rose-500',
+          badgeBg: 'bg-rose-400'
+        },
+        fortunes: [
+          '「你今天的笑容自帶萬有引力，連路過的微風都想為你停留！」',
+          '「活力滿格的一天！大膽去嘗試想做的事，好運正站在你這邊。」',
+          '「酸甜氣泡帶走所有陰霾，今天會有意想不到的小確幸發生喔！」'
+        ]
+      },
+      galaxy: {
+        id: 'galaxy',
+        name: '星河放鬆茶',
+        moodTitle: '放鬆平靜',
+        moodEn: 'RELAX & CALM',
+        icon: '🌙',
+        price: 65,
+        ingredients: '薰衣草 × 洋甘菊 × 藍莓',
+        quote: '「慢一點，也是一種溫柔。♡」',
+        scentDesc: '普羅旺斯高地薰衣草 × 德國洋甘菊舒壓霧',
+        tasteDesc: '薰衣草 × 洋甘菊 × 藍莓。淡雅花香，讓心情慢慢沉澱下來。',
+        visualDesc: '藍莓與蝶豆花青素交織出星空紫漸層，宛如夜空般寧靜',
+        benefitTag: '舒壓平靜 • 緩解焦慮緊繃',
+        benefitDesc: '針對課業與社交高壓設計，透過洋甘菊與薰衣草天然芳香分子加上無咖啡因花草基底，溫和撫平緊繃神經。',
+        imageUrl: '02.png',
+        altImageUrls: ['02.png', 'ChatGPT 圖像 2026年10月26日 下午01_54_28-2.png'],
+        theme: {
+          bgGrad: 'from-purple-200 via-indigo-100 to-pink-100',
+          titleColor: 'text-indigo-900',
+          badgeBg: 'bg-purple-500'
+        },
+        fortunes: [
+          '「月亮會撫平焦慮，今晚允許自己好好休息，明天依舊燦爛。」',
+          '「深吸一口氣，眼前的挑戰只是微風，吹不倒堅定的你。」',
+          '「不必急著趕路，星河正在為你閃爍，所有的疲憊都會被溫柔接住。」'
+        ]
+      },
+      mint: {
+        id: 'mint',
+        name: '薄荷清醒綠',
+        moodTitle: '專注補給',
+        moodEn: 'FOCUS MODE',
+        icon: '🌿',
+        price: 60,
+        ingredients: '薄荷 × 檸檬 × 茉莉綠茶',
+        quote: '「把注意力，留給最重要的事。♡」',
+        scentDesc: '鮮萃胡椒薄荷腦 × 青檸冷冽醒腦噴霧',
+        tasteDesc: '薄荷 × 檸檬 × 茉莉綠茶。清爽提神，讓思緒更清晰！',
+        visualDesc: '翠綠薄荷葉與晶透冰塊交錯，帶來沁涼舒暢的視覺降溫感',
+        benefitTag: '專注清醒 • 思緒清晰提神',
+        benefitDesc: '結合茉莉綠茶天然茶氨酸（L-Theanine）與薄荷清涼嗅覺刺激，幫助備考與夜讀時維持清晰專注，溫和提神不心悸。',
+        imageUrl: '03.png',
+        altImageUrls: ['03.png', 'ChatGPT 圖像 2026年10月26日 下午01_54_29-3.png'],
+        theme: {
+          bgGrad: 'from-sky-100 via-emerald-50 to-teal-100',
+          titleColor: 'text-teal-800',
+          badgeBg: 'bg-teal-600'
+        },
+        fortunes: [
+          '「思緒如清風般透徹，今天讀進去的每一頁都將成為你的底氣！」',
+          '「靈感正在路上！保持專注，困擾已久的難題即將迎刃而解。」',
+          '「你默默努力發光的樣子超迷人，離目標又更近一大步了！」'
+        ]
+      },
+      peach: {
+        id: 'peach',
+        name: '蜜桃微甜茶',
+        moodTitle: '社交微甜',
+        moodEn: 'SOCIAL SWEET',
+        icon: '🍑',
+        price: 65,
+        ingredients: '水蜜桃 × 玫瑰 × 錫蘭紅茶',
+        quote: '「和喜歡的人，分享今天的好心情！♡」',
+        scentDesc: '大馬士革玫瑰純露 × 白鳳水蜜桃果香霧',
+        tasteDesc: '水蜜桃 × 玫瑰 × 錫蘭紅茶。柔和香甜，讓每一次相聚都更溫暖。',
+        visualDesc: '粉嫩水蜜桃果肉與綿密雲朵頂層，充滿拍照打卡儀式感',
+        benefitTag: '愉悅暖心 • 社交好感加分',
+        benefitDesc: '馥郁水蜜桃與玫瑰花香能促進愉悅放鬆感，搭配溫潤錫蘭紅茶，最適合放學聚會或與好友分享打卡。',
+        imageUrl: '04.png',
+        altImageUrls: ['04.png', 'ChatGPT 圖像 2026年10月26日 下午01_54_30-4.png'],
+        theme: {
+          bgGrad: 'from-pink-100 via-rose-50 to-amber-50',
+          titleColor: 'text-rose-600',
+          badgeBg: 'bg-rose-400'
+        },
+        fortunes: [
+          '「今天適合把讚美說出口，你的溫柔會讓身邊的人都感到幸福！」',
+          '「微甜的香氣會為你吸引同頻率的好友，準備迎接驚喜對話吧！」',
+          '「和重要的人喝杯飲料吧！今天的相聚會成為閃閃發光的回憶。」'
+        ]
+      }
+    };
+
+    // 使用者當前選擇狀態
+    const userState = {
+      mood: 'relax',
+      moodEmoji: '😌',
+      moodLabel: '放鬆平靜',
+      flavor: 'floral',
+      flavorLabel: '柔和花香',
+      sugarValue: 1,
+      sugarText: '微糖 (30%)',
+      drinkType: '三感情調',
+      selectedDrinkId: 'galaxy',
+      extraFlavor: '原味黃金比例',
+      topping: '無配料',
+      toppingPrice: 0,
+      boost: '標準天然茶萃',
+      boostPrice: 0,
+      currentFortune: DRINKS_DB.galaxy.fortunes[0]
+    };
+
+    // 心情對應的 AI 共感問候語
+    const MOOD_EMPATHY_MAP = {
+      happy: '太棒了！今天的好心情值得用清爽閃亮的果香與微氣泡來慶祝！',
+      relax: '慢一點也是一種溫柔，讓天然薰衣草與洋甘菊陪你好好沉澱。',
+      focus: '需要集中精神嗎？清涼薄荷與茉莉綠茶能幫你把思緒整理得清清楚楚！',
+      social: '和喜歡的人相聚最棒了！用柔和蜜桃與玫瑰香氣為聚會加一點甜吧。',
+      anxious: '深呼吸～所有的緊張都會過去，讓溫和無咖啡因的花草香氛輕輕安撫你。',
+      tired: '辛苦了！先放下手邊的忙碌，用天然鮮果維生素C為自己溫柔充電吧。',
+      sad: '抱抱你～難過的時候不用勉強微笑，讓甜美溫暖的蜜桃玫瑰香氣給你一個溫柔擁抱。',
+      angry: '先深呼吸降降火！讓沁涼薄荷與青檸綠茶幫你瞬間消暑降溫，把煩躁通通吹散。'
+    };
+
+    // 飲品體感類型詳細介紹
+    const TYPE_DESCRIPTIONS = {
+      '三感情調': '<span class="font-bold text-purple-800">三感情調：</span>結合夢幻花青素漸層、鮮果層次與杯口專屬食用級香氛噴霧，打造兼具視覺、嗅覺與味覺的沉浸式無酒精特調。',
+      '清爽氣泡': '<span class="font-bold text-sky-700">清爽氣泡：</span>注入高壓綿密微氣泡，提升鮮果與草本香氣的揮發度，入口暢快沁涼，瞬間帶走悶熱與疲倦感。',
+      '原葉茶飲': '<span class="font-bold text-emerald-700">原葉茶飲：</span>嚴選台灣在地高山原葉冷萃，保留茶氨酸與自然回甘茶韻，清爽零負擔，最能襯托天然草本花香。',
+      '雲朵奶蓋': '<span class="font-bold text-amber-700">雲朵奶蓋：</span>頂層鋪上輕盈綿密的低脂玫瑰海鹽奶霜，口感絲滑溫潤，帶來滿滿的包覆感與幸福療癒感。'
+    };
+
+    // ================= 基礎介面切換與互動函式 =================
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      if (!box) return;
+      box.innerText = msg;
+      box.classList.remove('opacity-0');
+      box.classList.add('opacity-100');
+      setTimeout(() => {
+        box.classList.remove('opacity-100');
+        box.classList.add('opacity-0');
+      }, 2400);
+    }
+
+    function goToStep(stepNum) {
+      const sections = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'ai-loading'];
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      const target = document.getElementById(`step-${stepNum}`);
+      if (target) target.classList.remove('hidden');
+
+      // 更新頂部進度條樣式
+      for (let i = 1; i <= 5; i++) {
+        const tab = document.getElementById(`step-tab-${i}`);
+        if (!tab) continue;
+        if (i === stepNum) {
+          tab.className = 'text-[10px] font-bold py-1 rounded-lg bg-purple-600 text-white shadow-sm transition-all';
+        } else if (i < stepNum) {
+          tab.className = 'text-[10px] font-bold py-1 rounded-lg bg-purple-200 text-purple-800 transition-all';
+        } else {
+          tab.className = 'text-[10px] font-bold py-1 rounded-lg bg-purple-100/80 text-purple-500 transition-all';
+        }
+      }
+
+      if (stepNum === 4) {
+        prepareCustomizationStep();
+      }
+    }
+
+    function selectMood(moodKey, emoji, label) {
+      userState.mood = moodKey;
+      userState.moodEmoji = emoji;
+      userState.moodLabel = label;
+
+      document.getElementById('header-mood-badge').innerHTML = `<span>${emoji}</span><span>${label}</span>`;
+      const step2Mood = document.getElementById('step2-mood-summary');
+      if (step2Mood) step2Mood.innerText = `${emoji} ${label}`;
+
+      const empathyEl = document.getElementById('mood-empathy-text');
+      if (empathyEl) empathyEl.innerText = MOOD_EMPATHY_MAP[moodKey] || '';
+
+      document.querySelectorAll('.mood-btn').forEach(btn => {
+        if (btn.dataset.mood === moodKey) {
+          btn.className = 'mood-btn p-3.5 rounded-2xl border-2 border-purple-500 bg-purple-50/90 shadow-md scale-[1.02] transition-all flex items-center gap-3 text-left';
+        } else {
+          btn.className = 'mood-btn p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-purple-50/40 transition-all flex items-center gap-3 text-left';
+        }
+      });
+    }
+
+    function selectFlavor(flavorKey, label) {
+      userState.flavor = flavorKey;
+      userState.flavorLabel = label;
+      document.querySelectorAll('.flavor-btn').forEach(btn => {
+        if (btn.dataset.flavor === flavorKey) {
+          btn.className = 'flavor-btn py-2.5 px-1 rounded-xl border-2 border-purple-500 bg-purple-50 text-purple-800 font-bold text-xs flex flex-col items-center gap-1 shadow-sm';
+        } else {
+          btn.className = 'flavor-btn py-2.5 px-1 rounded-xl border border-slate-200 bg-white text-slate-600 font-medium text-xs flex flex-col items-center gap-1';
+        }
+      });
+    }
+
+    function updateSugar(val) {
+      const labels = ['無糖 (0%)', '微糖 (30%)', '半糖 (50%)', '少糖 (70%)', '全糖 (100%)'];
+      userState.sugarValue = parseInt(val, 10);
+      userState.sugarText = labels[userState.sugarValue] || '微糖 (30%)';
+      const labelEl = document.getElementById('sugar-label');
+      if (labelEl) labelEl.innerText = userState.sugarText;
+    }
+
+    function selectType(typeName) {
+      userState.drinkType = typeName;
+      document.querySelectorAll('.type-btn').forEach(btn => {
+        const titleDiv = btn.querySelector('div:first-child');
+        const subDiv = btn.querySelector('div:last-child');
+        if (btn.dataset.type === typeName) {
+          btn.className = 'type-btn p-2.5 rounded-xl border-2 border-purple-500 bg-purple-50 text-left transition-all shadow-sm';
+          if (titleDiv) titleDiv.className = 'flex items-center gap-1.5 font-bold text-xs text-purple-800';
+          if (subDiv) subDiv.className = 'text-[10px] text-purple-600 mt-0.5';
+        } else {
+          btn.className = 'type-btn p-2.5 rounded-xl border border-slate-200 bg-white text-left transition-all';
+          if (titleDiv) titleDiv.className = 'flex items-center gap-1.5 font-bold text-xs text-slate-700';
+          if (subDiv) subDiv.className = 'text-[10px] text-slate-400 mt-0.5';
+        }
+      });
+
+      const descEl = document.getElementById('type-detail-desc');
+      if (descEl && TYPE_DESCRIPTIONS[typeName]) {
+        descEl.innerHTML = TYPE_DESCRIPTIONS[typeName];
+      }
+    }
+
+    // ================= 啟動 AI 情緒解碼與氣味配對 =================
+    function startAiAnalysis() {
+      const sections = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5'];
+      sections.forEach(id => document.getElementById(id)?.classList.add('hidden'));
+      document.getElementById('ai-loading').classList.remove('hidden');
+
+      const stepText = document.getElementById('ai-loading-step');
+      const messages = [
+        `正在解析「${userState.moodLabel}」情緒波段...`,
+        `正在配對「${userState.flavorLabel}」天然植物芳香分子...`,
+        `正在融合「${userState.drinkType}」三感體驗比例...`
+      ];
+      let idx = 0;
+      stepText.innerText = messages[0];
+      const msgTimer = setInterval(() => {
+        idx++;
+        if (messages[idx]) stepText.innerText = messages[idx];
+      }, 380);
+
+      // 根據心情為主、口味為輔決定推薦飲品
+      const moodToDrinkMap = {
+        happy: 'sunshine',
+        tired: 'sunshine',
+        relax: 'galaxy',
+        anxious: 'galaxy',
+        focus: 'mint',
+        social: 'peach',
+        sad: 'peach',
+        angry: 'mint'
+      };
+      let matchedId = moodToDrinkMap[userState.mood] || 'galaxy';
+
+      // 若口味強烈指定果香或草本，做細膩加權微調
+      if (userState.flavor === 'herbal' && userState.mood !== 'social') {
+        matchedId = 'mint';
+      } else if (userState.flavor === 'fruity' && (userState.mood === 'happy' || userState.mood === 'tired')) {
+        matchedId = 'sunshine';
+      }
+
+      userState.selectedDrinkId = matchedId;
+
+      setTimeout(() => {
+        clearInterval(msgTimer);
+        renderRecommendation(matchedId);
+        goToStep(3);
+      }, 1250);
+    }
+
+    // ================= 支援使用者直接掛載電腦中的 01.png ~ 04.png 原圖 =================
+    const customUploadedImages = {};
+
+    function handleCustomCardUpload(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const dataUrl = e.target.result;
+          const name = file.name.toLowerCase();
+          if (name.includes('01') || name.includes('27-1') || name.includes('陽光') || name.includes('開心')) {
+            customUploadedImages.sunshine = dataUrl;
+          } else if (name.includes('02') || name.includes('28-2') || name.includes('星河') || name.includes('放鬆')) {
+            customUploadedImages.galaxy = dataUrl;
+          } else if (name.includes('03') || name.includes('29-3') || name.includes('薄荷') || name.includes('專注')) {
+            customUploadedImages.mint = dataUrl;
+          } else if (name.includes('04') || name.includes('30-4') || name.includes('蜜桃') || name.includes('社交')) {
+            customUploadedImages.peach = dataUrl;
+          } else {
+            // 若檔名未標示，直接套用至當前選中的飲品
+            customUploadedImages[userState.selectedDrinkId] = dataUrl;
+          }
+          // 即時刷新畫面上的卡片
+          renderRecommendation(userState.selectedDrinkId);
+          const finalContainer = document.getElementById('final-card-visual');
+          if (finalContainer && !document.getElementById('step-5').classList.contains('hidden')) {
+            renderCardVisual('final-card-visual', DRINKS_DB[userState.selectedDrinkId], false);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+      showToast('🖼️ 已成功載入您上傳的飲品卡原圖！');
+    }
+
+    // ================= 1:1 擬真手繪風格 SVG 插畫場景（對應 01~04.png 原圖構圖） =================
+    function getDetailedArtworkSVG(drinkId) {
+      if (drinkId === 'mint') {
+        // 03.png 專注補給 - 薄荷清醒綠（透明高杯、檸檬片、薄荷葉冠、藍皮書、戴眼鏡白貓、筆電）
+        return `
+        <svg viewBox="0 0 360 270" class="w-full h-auto block mx-auto drop-shadow-sm">
+          <defs>
+            <linearGradient id="mintCupGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e0f2fe" stop-opacity="0.85"/>
+              <stop offset="45%" stop-color="#6ee7b7" stop-opacity="0.75"/>
+              <stop offset="100%" stop-color="#10b981" stop-opacity="0.85"/>
+            </linearGradient>
+          </defs>
+          <!-- 背景光暈與植物葉片裝飾 -->
+          <circle cx="180" cy="135" r="115" fill="#ffffff" fill-opacity="0.55"/>
+          <circle cx="65" cy="200" r="18" fill="#bae6fd" fill-opacity="0.6" stroke="#fff" stroke-width="1.5"/>
+          <!-- 右後方筆電與 Good Focus Better Me 螢幕 -->
+          <g transform="translate(225, 62) rotate(6)">
+            <rect x="0" y="0" width="95" height="68" rx="6" fill="#64748b" stroke="#334155" stroke-width="2"/>
+            <rect x="5" y="5" width="85" height="56" rx="4" fill="#93c5fd"/>
+            <text x="47" y="24" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold" font-family="sans-serif">Good ✨</text>
+            <text x="47" y="38" text-anchor="middle" fill="#fff" font-size="10" font-weight="bold" font-family="sans-serif">Focus</text>
+            <text x="47" y="52" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold" font-family="sans-serif">Better Me!</text>
+            <!-- 便利貼打勾 -->
+            <rect x="-10" y="42" width="26" height="26" rx="3" fill="#fef08a" stroke="#fde047" stroke-width="1.5"/>
+            <path d="M-3 55 L3 61 L11 49" stroke="#22c55e" stroke-width="3" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- 左側筆記本與鋼筆 -->
+          <g transform="translate(25, 165) rotate(-8)">
+            <rect x="0" y="0" width="85" height="55" rx="4" fill="#fefce8" stroke="#cbd5e1" stroke-width="2"/>
+            <line x1="12" y1="15" x2="65" y2="15" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2"/>
+            <line x1="12" y1="27" x2="70" y2="27" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2"/>
+            <line x1="12" y1="39" x2="55" y2="39" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 2"/>
+            <rect x="45" y="-5" width="8" height="55" rx="3" fill="#60a5fa" transform="rotate(-30 45 20)"/>
+          </g>
+          <!-- 右下藍皮精裝書與戴眼鏡學霸貓咪 -->
+          <g transform="translate(205, 138)">
+            <!-- 藍色書本 -->
+            <path d="M0 55 L115 45 L130 68 L15 80 Z" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+            <path d="M5 60 L120 50 L120 63 L5 74 Z" fill="#fef9c3"/>
+            <!-- 白色學霸貓咪 -->
+            <ellipse cx="62" cy="36" rx="42" ry="30" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+            <!-- 貓耳 -->
+            <polygon points="26,20 32,-4 50,12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+            <polygon points="30,16 34,2 45,12" fill="#fda4af"/>
+            <polygon points="96,20 92,-4 74,12" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+            <polygon points="92,16 89,2 78,12" fill="#fda4af"/>
+            <!-- 貓咪深藍黑框眼鏡 -->
+            <rect x="30" y="22" width="27" height="19" rx="5" fill="#e0f2fe" fill-opacity="0.4" stroke="#1e3a8a" stroke-width="3.2"/>
+            <rect x="67" y="22" width="27" height="19" rx="5" fill="#e0f2fe" fill-opacity="0.4" stroke="#1e3a8a" stroke-width="3.2"/>
+            <line x1="57" y1="30" x2="67" y2="30" stroke="#1e3a8a" stroke-width="3.2"/>
+            <!-- 眼睛與微笑 -->
+            <circle cx="44" cy="31" r="2.8" fill="#1e293b"/>
+            <circle cx="80" cy="31" r="2.8" fill="#1e293b"/>
+            <path d="M58 43 Q62 47 66 43" stroke="#f43f5e" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- 小白爪趴在書上 -->
+            <ellipse cx="36" cy="58" rx="11" ry="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+            <ellipse cx="86" cy="58" rx="11" ry="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+          </g>
+          <!-- 中央薄荷清醒綠透明高杯 -->
+          <g transform="translate(95, 42)">
+            <!-- 杯身流體底色與漸層（確保 html2canvas 截圖飽和顯色） -->
+            <polygon points="12,35 138,35 122,208 28,208" fill="#34d399" fill-opacity="0.72"/>
+            <polygon points="12,35 138,35 122,208 28,208" fill="url(#mintCupGrad)" stroke="#ffffff" stroke-width="3"/>
+            <!-- 冰塊群 -->
+            <rect x="30" y="45" width="32" height="28" rx="6" fill="#ffffff" fill-opacity="0.65" transform="rotate(-10 46 59)"/>
+            <rect x="75" y="52" width="34" height="30" rx="6" fill="#ffffff" fill-opacity="0.6" transform="rotate(14 92 67)"/>
+            <rect x="48" y="88" width="30" height="26" rx="6" fill="#ffffff" fill-opacity="0.5" transform="rotate(8 63 101)"/>
+            <!-- 黃綠檸檬切片 x2 -->
+            <circle cx="52" cy="122" r="23" fill="#fef08a" stroke="#84cc16" stroke-width="4"/>
+            <circle cx="52" cy="122" r="18" fill="#ecfccb"/>
+            <circle cx="72" cy="175" r="25" fill="#fef08a" stroke="#65a30d" stroke-width="4"/>
+            <circle cx="72" cy="175" r="19" fill="#ecfccb"/>
+            <!-- 杯內薄荷葉片 -->
+            <ellipse cx="98" cy="115" rx="16" ry="9" fill="#16a34a" transform="rotate(-25 98 115)"/>
+            <ellipse cx="42" cy="78" rx="14" ry="8" fill="#22c55e" transform="rotate(20 42 78)"/>
+            <!-- 杯口橢圓框 -->
+            <ellipse cx="75" cy="35" rx="65" ry="12" fill="#e0f2fe" fill-opacity="0.5" stroke="#0284c7" stroke-width="2.5"/>
+            <!-- 杯頂立體新鮮薄荷葉冠 -->
+            <g transform="translate(75, 22)">
+              <path d="M0 10 C-25 -15, -35 5, 0 15" fill="#22c55e" stroke="#15803d" stroke-width="1.5"/>
+              <path d="M0 10 C25 -15, 35 5, 0 15" fill="#4ade80" stroke="#15803d" stroke-width="1.5"/>
+              <path d="M0 12 C-12 -28, 12 -28, 0 12" fill="#16a34a" stroke="#14532d" stroke-width="1.5"/>
+            </g>
+            <!-- 杯身雲朵微笑 Logo 與「一飲讀心」 -->
+            <path d="M56 126 Q56 112 75 112 Q94 112 94 126 Q102 128 100 136 Q98 143 89 143 L61 143 Q52 143 50 136 Q48 128 56 126 Z" fill="#ffffff" fill-opacity="0.92"/>
+            <circle cx="68" cy="129" r="2" fill="#0f766e"/>
+            <circle cx="82" cy="129" r="2" fill="#0f766e"/>
+            <path d="M72 133 Q75 137 78 133" stroke="#0f766e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <text x="75" y="160" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900" font-family="sans-serif">一飲讀心</text>
+          </g>
+        </svg>`;
+      }
+
+      if (drinkId === 'sunshine') {
+        // 01.png 開心活力 - 陽光果氣泡茶（金澄氣泡杯、大片柳橙角、粉紅葡萄柚、微笑小太陽、薄荷葉）
+        return `
+        <svg viewBox="0 0 360 270" class="w-full h-auto block mx-auto drop-shadow-sm">
+          <defs>
+            <linearGradient id="sunCupGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fef08a" stop-opacity="0.9"/>
+              <stop offset="55%" stop-color="#fb923c" stop-opacity="0.88"/>
+              <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.82"/>
+            </linearGradient>
+          </defs>
+          <!-- 微笑小太陽與夢幻泡泡 -->
+          <g transform="translate(65, 112)">
+            <circle cx="0" cy="0" r="24" fill="#facc15" stroke="#eab308" stroke-width="2"/>
+            <circle cx="-7" cy="-3" r="2.5" fill="#713f12"/>
+            <circle cx="7" cy="-3" r="2.5" fill="#713f12"/>
+            <path d="M-5 5 Q0 10 5 5" stroke="#713f12" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- 太陽光芒 -->
+            <line x1="0" y1="-32" x2="0" y2="-39" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+            <line x1="0" y1="32" x2="0" y2="39" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+            <line x1="-32" y1="0" x2="-39" y2="0" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+            <line x1="32" y1="0" x2="39" y2="0" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <!-- 左下柳橙切面與右下葡萄柚切片 -->
+          <circle cx="52" cy="195" r="36" fill="#fb923c" stroke="#ea580c" stroke-width="3"/>
+          <circle cx="52" cy="195" r="30" fill="#fed7aa"/>
+          <path d="M245 215 A42 42 0 0 1 315 165 L280 215 Z" fill="#f43f5e" stroke="#fb923c" stroke-width="4"/>
+          <!-- 中央陽光果氣泡茶杯 -->
+          <g transform="translate(105, 45)">
+            <polygon points="10,35 140,35 124,205 26,205" fill="#fb923c" fill-opacity="0.78"/>
+            <polygon points="10,35 140,35 124,205 26,205" fill="url(#sunCupGrad)" stroke="#ffffff" stroke-width="3.5"/>
+            <!-- 杯口大片新鮮柳橙角 -->
+            <path d="M12 35 A42 42 0 0 1 85 10 L55 42 Z" fill="#f97316" stroke="#fff7ed" stroke-width="3"/>
+            <!-- 杯頂薄荷葉 -->
+            <path d="M88 30 C75 -5, 105 -5, 92 30" fill="#22c55e" stroke="#15803d" stroke-width="1.5"/>
+            <path d="M92 32 C115 5, 125 25, 94 34" fill="#4ade80" stroke="#15803d" stroke-width="1.5"/>
+            <!-- 冰塊與百香果籽點綴 -->
+            <rect x="35" y="55" width="30" height="26" rx="5" fill="#ffffff" fill-opacity="0.6"/>
+            <rect x="80" y="65" width="28" height="25" rx="5" fill="#ffffff" fill-opacity="0.55"/>
+            <circle cx="48" cy="165" r="2.5" fill="#451a03"/>
+            <circle cx="65" cy="180" r="2.5" fill="#451a03"/>
+            <circle cx="95" cy="172" r="2.5" fill="#451a03"/>
+            <circle cx="82" cy="188" r="2.5" fill="#451a03"/>
+            <!-- 杯口框 -->
+            <ellipse cx="75" cy="35" rx="66" ry="11" fill="#ffffff" fill-opacity="0.4" stroke="#fdba74" stroke-width="2.5"/>
+            <!-- 雲朵微笑 Logo -->
+            <path d="M56 118 Q56 104 75 104 Q94 104 94 118 Q102 120 100 128 Q98 135 89 135 L61 135 Q52 135 50 128 Q48 120 56 118 Z" fill="#ffffff" fill-opacity="0.92"/>
+            <circle cx="68" cy="121" r="2" fill="#ea580c"/>
+            <circle cx="82" cy="121" r="2" fill="#ea580c"/>
+            <path d="M72 125 Q75 129 78 125" stroke="#ea580c" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <text x="75" y="154" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900" font-family="sans-serif">一飲讀心</text>
+          </g>
+        </svg>`;
+      }
+
+      if (drinkId === 'peach') {
+        // 04.png 社交微甜 - 蜜桃微甜茶（粉紅鮮奶油頂、水蜜桃切片、愛心吸管、好友拍立得、花貓）
+        return `
+        <svg viewBox="0 0 360 270" class="w-full h-auto block mx-auto drop-shadow-sm">
+          <defs>
+            <linearGradient id="peachCupGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fda4af" stop-opacity="0.9"/>
+              <stop offset="55%" stop-color="#f472b6" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#fb7185" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+          <!-- 左側好友拍立得照片 x2 -->
+          <g transform="translate(26, 48) rotate(-10)">
+            <rect x="0" y="0" width="66" height="76" rx="4" fill="#ffffff" stroke="#fce7f3" stroke-width="2"/>
+            <rect x="6" y="6" width="54" height="50" fill="#fbcfe8"/>
+            <text x="33" y="40" text-anchor="middle" font-size="22">👭</text>
+          </g>
+          <g transform="translate(22, 132) rotate(-6)">
+            <rect x="0" y="0" width="64" height="72" rx="4" fill="#ffffff" stroke="#fce7f3" stroke-width="2"/>
+            <rect x="6" y="6" width="52" height="46" fill="#fde68a"/>
+            <text x="32" y="38" text-anchor="middle" font-size="20">🥳</text>
+          </g>
+          <!-- 左下新鮮水蜜桃 -->
+          <circle cx="88" cy="212" r="32" fill="#fda4af" stroke="#f43f5e" stroke-width="2"/>
+          <circle cx="115" cy="222" r="25" fill="#fecdd3" stroke="#f43f5e" stroke-width="2"/>
+          <!-- 右下可愛三花貓咪 -->
+          <g transform="translate(230, 158)">
+            <ellipse cx="48" cy="45" rx="38" ry="28" fill="#ffffff" stroke="#f9a8d4" stroke-width="2"/>
+            <polygon points="16,28 22,5 38,20" fill="#d6d3d1" stroke="#a8a29e" stroke-width="1.5"/>
+            <polygon points="80,28 74,5 58,20" fill="#fda4af" stroke="#f472b6" stroke-width="1.5"/>
+            <circle cx="34" cy="42" r="3" fill="#451a03"/>
+            <circle cx="62" cy="42" r="3" fill="#451a03"/>
+            <path d="M44 50 Q48 54 52 50" stroke="#e11d48" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- 中央蜜桃微甜茶與鮮奶油頂 -->
+          <g transform="translate(105, 42)">
+            <!-- 愛心造型吸管 -->
+            <line x1="115" y1="35" x2="142" y2="-8" stroke="#ec4899" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="145" cy="-12" r="10" fill="none" stroke="#ec4899" stroke-width="4"/>
+            <!-- 杯身 -->
+            <polygon points="12,42 138,42 122,205 28,205" fill="#f472b6" fill-opacity="0.8"/>
+            <polygon points="12,42 138,42 122,205 28,205" fill="url(#peachCupGrad)" stroke="#ffffff" stroke-width="3.5"/>
+            <!-- 綿密粉白鮮奶油頂 -->
+            <path d="M12 42 Q25 15 52 22 Q75 -2 100 20 Q128 18 138 42 Z" fill="#fff1f2" stroke="#fecdd3" stroke-width="2.5"/>
+            <!-- 奶油上的水蜜桃瓣與小愛心糖珠 -->
+            <path d="M72 26 A26 26 0 0 1 118 28 Z" fill="#fb7185" stroke="#fff" stroke-width="2"/>
+            <circle cx="52" cy="28" r="4" fill="#e11d48"/>
+            <circle cx="92" cy="34" r="3.5" fill="#e11d48"/>
+            <!-- 雲朵微笑 Logo -->
+            <path d="M56 122 Q56 108 75 108 Q94 108 94 122 Q102 124 100 132 Q98 139 89 139 L61 139 Q52 139 50 132 Q48 124 56 122 Z" fill="#ffffff" fill-opacity="0.92"/>
+            <circle cx="68" cy="125" r="2" fill="#e11d48"/>
+            <circle cx="82" cy="125" r="2" fill="#e11d48"/>
+            <path d="M72 129 Q75 133 78 129" stroke="#e11d48" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+            <text x="75" y="158" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900" font-family="sans-serif">一飲讀心</text>
+          </g>
+        </svg>`;
+      }
+
+      // 預設：02.png 放鬆平靜 - 星河放鬆茶（圓弧星空玻璃杯、薰衣草花束、金色彎月、熟睡白貓）
+      return `
+      <svg viewBox="0 0 360 270" class="w-full h-auto block mx-auto drop-shadow-sm">
+        <defs>
+          <linearGradient id="galaxyCupGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c084fc" stop-opacity="0.88"/>
+            <stop offset="55%" stop-color="#7c3aed" stop-opacity="0.88"/>
+            <stop offset="100%" stop-color="#f472b6" stop-opacity="0.85"/>
+          </linearGradient>
+        </defs>
+        <!-- 星空點綴與發光泡泡 -->
+        <circle cx="58" cy="72" r="16" fill="#e9d5ff" fill-opacity="0.55" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="305" cy="95" r="20" fill="#f5d0fe" fill-opacity="0.5" stroke="#fff" stroke-width="1.5"/>
+        <text x="45" y="125" font-size="16">⭐</text>
+        <text x="290" y="55" font-size="18">🌙</text>
+        <!-- 左下薰衣草花束與藍莓果粒 -->
+        <g transform="translate(32, 165) rotate(-20)">
+          <line x1="0" y1="30" x2="65" y2="30" stroke="#15803d" stroke-width="3"/>
+          <ellipse cx="15" cy="24" rx="6" ry="4" fill="#7e22ce"/>
+          <ellipse cx="28" cy="23" rx="6" ry="4" fill="#9333ea"/>
+          <ellipse cx="42" cy="24" rx="6" ry="4" fill="#7e22ce"/>
+          <ellipse cx="20" cy="36" rx="6" ry="4" fill="#9333ea"/>
+          <ellipse cx="35" cy="36" rx="6" ry="4" fill="#7e22ce"/>
+        </g>
+        <circle cx="88" cy="212" r="9" fill="#312e81" stroke="#c7d2fe" stroke-width="1.5"/>
+        <!-- 中央圓弧星河玻璃杯 -->
+        <g transform="translate(95, 52)">
+          <!-- 杯口左上插入的新鮮薰衣草花穗 -->
+          <g transform="translate(22, -28) rotate(-18)">
+            <line x1="12" y1="0" x2="12" y2="55" stroke="#15803d" stroke-width="2.5"/>
+            <ellipse cx="12" cy="8" rx="5" ry="7" fill="#7e22ce"/>
+            <ellipse cx="7" cy="18" rx="5" ry="6" fill="#9333ea"/>
+            <ellipse cx="17" cy="18" rx="5" ry="6" fill="#9333ea"/>
+            <ellipse cx="7" cy="30" rx="5" ry="6" fill="#7e22ce"/>
+            <ellipse cx="17" cy="30" rx="5" ry="6" fill="#7e22ce"/>
+          </g>
+          <!-- 杯緣金色彎月裝飾 -->
+          <path d="M122 15 A24 24 0 1 0 148 48 A18 18 0 1 1 122 15 Z" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+          <!-- 圓弧杯身 -->
+          <path d="M15 30 L145 30 Q162 125 130 172 Q80 195 30 172 Q-2 125 15 30 Z" fill="#9333ea" fill-opacity="0.75"/>
+          <path d="M15 30 L145 30 Q162 125 130 172 Q80 195 30 172 Q-2 125 15 30 Z" fill="url(#galaxyCupGrad)" stroke="#ffffff" stroke-width="3.5"/>
+          <!-- 紫水晶冰塊群 -->
+          <polygon points="45,28 75,14 95,30 65,42" fill="#f3e8ff" fill-opacity="0.7" stroke="#fff" stroke-width="1.5"/>
+          <polygon points="82,26 112,15 128,32 95,42" fill="#f3e8ff" fill-opacity="0.65" stroke="#fff" stroke-width="1.5"/>
+          <rect x="42" y="55" width="28" height="26" rx="5" fill="#ffffff" fill-opacity="0.45" transform="rotate(15 56 68)"/>
+          <rect x="88" y="62" width="28" height="26" rx="5" fill="#ffffff" fill-opacity="0.45" transform="rotate(-12 102 75)"/>
+          <!-- 雲朵微笑 Logo 與一飲讀心 -->
+          <path d="M60 105 Q60 91 80 91 Q100 91 100 105 Q108 107 106 115 Q104 122 95 122 L65 122 Q56 122 54 115 Q52 107 60 105 Z" fill="#ffffff" fill-opacity="0.92"/>
+          <circle cx="72" cy="108" r="2" fill="#581c87"/>
+          <circle cx="88" cy="108" r="2" fill="#581c87"/>
+          <path d="M76 112 Q80 116 84 112" stroke="#581c87" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <text x="80" y="142" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="900" font-family="sans-serif">一飲讀心</text>
+        </g>
+        <!-- 右下熟睡白貓 -->
+        <g transform="translate(215, 162)">
+          <ellipse cx="52" cy="40" rx="44" ry="26" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+          <polygon points="18,24 24,4 38,18" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+          <polygon points="82,24 76,4 62,18" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+          <!-- 閉眼熟睡弧線 -->
+          <path d="M30 36 Q36 42 42 36" stroke="#4c1d95" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M58 36 Q64 42 70 36" stroke="#4c1d95" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M46 44 Q50 47 54 44" stroke="#f43f5e" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="32" cy="56" rx="10" ry="6" fill="#ffffff" stroke="#e9d5ff" stroke-width="1.5"/>
+          <ellipse cx="68" cy="56" rx="10" ry="6" fill="#ffffff" stroke="#e9d5ff" stroke-width="1.5"/>
+        </g>
+      </svg>`;
+    }
+
+    // ================= 渲染高精度原畫卡片（HTML 穩定顯示 + 原生 Canvas 零偏移截圖） =================
+    function buildVectorCardHTML(drink, isCompact = false) {
+      return `
+        <div class="bg-gradient-to-b ${drink.theme.bgGrad} p-4 rounded-[1.5rem] flex flex-col justify-between shadow-inner select-none">
+          <!-- 頂部標籤列 -->
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-white/95 text-[11px] font-extrabold text-slate-700 shadow-sm">
+              ✨ 今日心情飲品卡
+            </span>
+            <span class="font-cute font-black text-xs text-purple-900">一飲讀心 ♡</span>
+          </div>
+
+          <!-- 情緒標題 -->
+          <div class="text-center mt-2">
+            <div class="font-cute font-black text-2xl ${drink.theme.titleColor} flex items-center justify-center gap-1.5">
+              <span>${drink.icon}</span>
+              <span>${drink.moodTitle}</span>
+            </div>
+            <div class="text-[10px] font-extrabold tracking-widest text-slate-500 uppercase mt-0.5">${drink.moodEn}</div>
+          </div>
+
+          <!-- 中央 1:1 飲品插畫 SVG -->
+          <div class="my-1">
+            ${getDetailedArtworkSVG(drink.id)}
+          </div>
+
+          <!-- 療癒金句 -->
+          <div class="text-center mb-2.5">
+            <span class="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/95 text-slate-800 font-cute font-black text-xs shadow-sm border border-white">
+              ${drink.quote}
+            </span>
+          </div>
+
+          ${!isCompact ? `
+          <!-- 底部飲品名稱與風味筆記白框 -->
+          <div class="bg-white/95 rounded-2xl p-3.5 space-y-2.5 shadow-sm border border-white text-left">
+            <div class="flex items-center gap-2.5 border-b border-dashed border-slate-200 pb-2">
+              <span class="inline-flex items-center justify-center text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white ${drink.theme.badgeBg} shrink-0">
+                飲品名稱
+              </span>
+              <span class="font-cute font-black text-base text-slate-800">${drink.icon} ${drink.name}</span>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="inline-flex items-center justify-center text-[10px] font-extrabold px-2.5 py-1 rounded-full text-white ${drink.theme.badgeBg} shrink-0 mt-0.5">
+                風味筆記
+              </span>
+              <p class="text-xs text-slate-600 font-medium leading-relaxed">${drink.tasteDesc}</p>
+            </div>
+          </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function renderCardVisual(containerId, drink, isCompact = false) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      // 1. 若使用者已透過右上角圖片按鈕匯入原圖，最優先呈現該原圖
+      if (customUploadedImages[drink.id]) {
+        container.innerHTML = `
+          <img src="${customUploadedImages[drink.id]}" alt="${drink.name}" class="w-full h-auto object-cover block">
+        `;
+        return;
+      }
+
+      // 2. 先立即渲染高精細 1:1 構圖 SVG 插畫卡片
+      container.innerHTML = buildVectorCardHTML(drink, isCompact);
+
+      // 3. 背景同時嘗試載入 01.png ~ 04.png 本地圖片，若存在則無縫替換為原圖
+      const candidates = drink.altImageUrls || [drink.imageUrl];
+      let attemptIndex = 0;
+
+      function tryLoadNextImage() {
+        if (attemptIndex >= candidates.length) return;
+        const img = new Image();
+        img.src = candidates[attemptIndex];
+        img.alt = drink.name;
+        img.className = 'w-full h-auto object-cover block';
+
+        img.onload = () => {
+          container.innerHTML = '';
+          container.appendChild(img);
+        };
+
+        img.onerror = () => {
+          attemptIndex++;
+          tryLoadNextImage();
+        };
+      }
+
+      tryLoadNextImage();
+    }
+
+    // ================= 渲染步驟 3：AI 推薦內容 =================
+    function renderRecommendation(drinkId) {
+      const drink = DRINKS_DB[drinkId] || DRINKS_DB.galaxy;
+      userState.selectedDrinkId = drink.id;
+
+      renderCardVisual('rec-visual-container', drink, true);
+
+      document.getElementById('rec-mood-tag').innerText = `${drink.icon} ${drink.moodTitle}專屬`;
+      document.getElementById('rec-drink-name').innerText = drink.name;
+      document.getElementById('rec-ingredients').innerText = drink.ingredients;
+      document.getElementById('rec-price').innerText = `NT$ ${drink.price}`;
+      document.getElementById('rec-scent-desc').innerText = drink.scentDesc;
+      document.getElementById('rec-taste-desc').innerText = drink.tasteDesc;
+      document.getElementById('rec-visual-desc').innerText = drink.visualDesc;
+      document.getElementById('rec-benefit-tag').innerText = drink.benefitTag;
+      document.getElementById('rec-benefit-desc').innerText = drink.benefitDesc;
+
+      // 生成其他 3 款備選方案按鈕
+      const altContainer = document.getElementById('alt-drinks-list');
+      altContainer.innerHTML = '';
+      Object.values(DRINKS_DB).forEach(item => {
+        if (item.id !== drink.id) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.onclick = () => renderRecommendation(item.id);
+          btn.className = 'p-2 rounded-xl bg-white border border-purple-100 hover:border-purple-400 text-left transition-all shadow-sm flex flex-col gap-0.5';
+          btn.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-sm">${item.icon}</span>
+              <span class="text-[10px] font-bold text-purple-600">$${item.price}</span>
+            </div>
+            <span class="text-[11px] font-bold text-slate-800 truncate">${item.name}</span>
+            <span class="text-[9px] text-slate-400 truncate">${item.benefitTag}</span>
+          `;
+          altContainer.appendChild(btn);
+        }
+      });
+    }
+
+    // ================= 步驟 4：客製化微調邏輯 =================
+    function prepareCustomizationStep() {
+      const drink = DRINKS_DB[userState.selectedDrinkId] || DRINKS_DB.galaxy;
+      document.getElementById('custom-icon').innerText = drink.icon;
+      document.getElementById('custom-drink-name').innerText = drink.name;
+      document.getElementById('custom-base-price').innerText = `NT$ ${drink.price}`;
+      document.getElementById('custom-scent-summary').innerText = `主調香氣：${drink.scentDesc}`;
+      document.getElementById('custom-benefit-summary').innerText = `機能助益（${drink.benefitTag}）：${drink.benefitDesc}`;
+      document.getElementById('custom-sugar-display').innerText = userState.sugarText;
+    }
+
+    function selectExtraFlavor(val) {
+      userState.extraFlavor = val;
+      document.querySelectorAll('.extra-flavor-btn').forEach(btn => {
+        if (btn.dataset.val === val) {
+          btn.className = 'extra-flavor-btn py-2 px-2 rounded-xl border-2 border-purple-500 bg-purple-50 text-xs font-bold text-purple-700';
+        } else {
+          btn.className = 'extra-flavor-btn py-2 px-2 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600';
+        }
+      });
+    }
+
+    function selectTopping(name, price) {
+      userState.topping = name;
+      userState.toppingPrice = price;
+      document.querySelectorAll('.topping-btn').forEach(btn => {
+        if (btn.dataset.top === name) {
+          btn.className = 'topping-btn py-2 px-1 rounded-xl border-2 border-purple-500 bg-purple-50 text-xs font-bold text-purple-700';
+        } else {
+          btn.className = 'topping-btn py-2 px-1 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-600';
+        }
+      });
+    }
+
+    function selectBoost(name, price) {
+      userState.boost = name;
+      userState.boostPrice = price;
+      document.querySelectorAll('.boost-btn').forEach(btn => {
+        const title = btn.querySelector('div:first-child');
+        const sub = btn.querySelector('div:last-child');
+        if (btn.dataset.boost === name) {
+          btn.className = 'boost-btn p-2.5 rounded-xl border-2 border-purple-500 bg-purple-50 text-left';
+          title.className = 'text-xs font-bold text-purple-700';
+          sub.className = 'text-[10px] text-purple-500';
+        } else {
+          btn.className = 'boost-btn p-2.5 rounded-xl border border-slate-200 bg-white text-left';
+          title.className = 'text-xs font-bold text-slate-700';
+          sub.className = 'text-[10px] text-slate-400';
+        }
+      });
+    }
+
+    // ================= 步驟 5：生成專屬今日心情飲品卡 =================
+    function generateFinalCard() {
+      const drink = DRINKS_DB[userState.selectedDrinkId] || DRINKS_DB.galaxy;
+      // 確保最終價格嚴格落在 NT$60 ~ NT$65 之間
+      const rawTotal = drink.price + userState.toppingPrice + userState.boostPrice;
+      const totalPrice = Math.min(65, Math.max(60, rawTotal));
+
+      // 從該飲品的 3 組專屬籤詩中隨機抽取 1 組（共 12 組心情密語）
+      const randomIdx = Math.floor(Math.random() * drink.fortunes.length);
+      const selectedFortune = drink.fortunes[randomIdx];
+      userState.currentFortune = selectedFortune;
+
+      renderCardVisual('final-card-visual', drink, false);
+
+      const fortuneEl = document.getElementById('final-fortune-text');
+      if (fortuneEl) fortuneEl.innerText = selectedFortune;
+
+      const specs = [userState.sugarText, userState.topping];
+      if (userState.extraFlavor !== '原味黃金比例') specs.push(userState.extraFlavor);
+      if (userState.boost !== '標準天然茶萃') specs.push(userState.boost);
+
+      document.getElementById('final-total-price').innerText = `NT$ ${totalPrice}`;
+      document.getElementById('final-drink-title').innerText = `${drink.name} (${drink.moodTitle})`;
+      document.getElementById('final-custom-specs').innerText = specs.join(' • ');
+      document.getElementById('final-scent-spray').innerText = drink.scentDesc;
+
+      goToStep(5);
+      showToast('✨ 專屬今日心情飲品卡已生成！');
+    }
+
+    // ================= 截取飲品卡圖片（原生 Canvas 2D 精準繪圖，標籤文字零偏移） =================
+    function drawRoundedRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    async function downloadCardScreenshot() {
+      const target = document.getElementById('final-card-visual');
+      const btn = document.getElementById('btn-download-img');
+      const originalHtml = btn.innerHTML;
+      const drink = DRINKS_DB[userState.selectedDrinkId] || DRINKS_DB.galaxy;
+
+      const paletteMap = {
+        sunshine: { bg1: '#fef3c7', bg2: '#ffedd5', bg3: '#fce7f3', title: '#f43f5e', badge: '#fb7185' },
+        galaxy: { bg1: '#e9d5ff', bg2: '#e0e7ff', bg3: '#fce7f3', title: '#312e81', badge: '#a855f7' },
+        mint: { bg1: '#e0f2fe', bg2: '#ecfdf5', bg3: '#ccfbf1', title: '#115e59', badge: '#0d9488' },
+        peach: { bg1: '#fce7f3', bg2: '#fff1f2', bg3: '#fef3c7', title: '#e11d48', badge: '#fb7185' }
+      };
+      const pal = paletteMap[drink.id] || paletteMap.galaxy;
+
+      try {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>正在生成圖片...</span>';
+
+        // 若使用者有手動上傳真實 PNG 圖片，則直接下載該圖
+        const uploadedImgEl = target.querySelector('img');
+        if (uploadedImgEl && uploadedImgEl.src) {
+          const link = document.createElement('a');
+          link.download = `一飲讀心-${drink.name}-今日心情飲品卡.png`;
+          link.href = uploadedImgEl.src;
+          link.click();
+          showToast('📸 專屬心情飲品卡已單獨截取下載！');
+          return;
+        }
+
+        // 建立 800 x 1060 高解析度 Canvas 單獨繪製「今日心情飲品卡」
+        const canvas = document.createElement('canvas');
+        canvas.width = 800;
+        canvas.height = 1060;
+        const ctx = canvas.getContext('2d');
+
+        // 1. 圓角漸層背景
+        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        grad.addColorStop(0, pal.bg1);
+        grad.addColorStop(0.55, pal.bg2);
+        grad.addColorStop(1, pal.bg3);
+        drawRoundedRect(ctx, 0, 0, canvas.width, canvas.height, 48);
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // 2. 左上角「✨ 今日心情飲品卡」膠囊（使用 textBaseline = 'middle' 確保絕對垂直置中）
+        drawRoundedRect(ctx, 40, 36, 250, 54, 27);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+        ctx.fill();
+        ctx.fillStyle = '#334155';
+        ctx.font = 'bold 23px "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('✨ 今日心情飲品卡', 165, 63);
+
+        // 3. 右上角「一飲讀心 ♡」
+        ctx.fillStyle = '#581c87';
+        ctx.font = '900 26px "Zen Maru Gothic", "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('一飲讀心 ♡', 756, 63);
+
+        // 4. 心情大標題與英文副標題
+        ctx.fillStyle = pal.title;
+        ctx.font = '900 52px "Zen Maru Gothic", "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${drink.icon} ${drink.moodTitle}`, 400, 142);
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.fillText(drink.moodEn, 400, 192);
+
+        // 5. 載入中央飲品 SVG 插畫並繪製到 Canvas 中央
+        const svgMarkup = getDetailedArtworkSVG(drink.id).trim();
+        const svgWithNs = svgMarkup.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="720" height="540" ');
+        const svgBlob = new Blob([svgWithNs], { type: 'image/svg+xml;charset=utf-8' });
+        const svgUrl = URL.createObjectURL(svgBlob);
+
+        await new Promise((resolve) => {
+          const artImg = new Image();
+          artImg.onload = () => {
+            ctx.drawImage(artImg, 40, 205, 720, 520);
+            URL.revokeObjectURL(svgUrl);
+            resolve();
+          };
+          artImg.onerror = () => {
+            URL.revokeObjectURL(svgUrl);
+            resolve();
+          };
+          artImg.src = svgUrl;
+        });
+
+        // 6. 療癒金句白色膠囊（絕對置中）
+        drawRoundedRect(ctx, 130, 726, 540, 62, 31);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.96)';
+        ctx.fill();
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 26px "Zen Maru Gothic", "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(drink.quote, 400, 757);
+
+        // 7. 底部飲品名稱與風味筆記白框
+        drawRoundedRect(ctx, 40, 814, 720, 206, 34);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.97)';
+        ctx.fill();
+
+        // 7-1. 「飲品名稱」膠囊與標題（絕對垂直置中）
+        drawRoundedRect(ctx, 68, 842, 132, 46, 23);
+        ctx.fillStyle = pal.badge;
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 21px "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('飲品名稱', 134, 865);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '900 34px "Zen Maru Gothic", "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(`${drink.icon} ${drink.name}`, 222, 865);
+
+        // 分隔虛線
+        ctx.save();
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(68, 908);
+        ctx.lineTo(732, 908);
+        ctx.stroke();
+        ctx.restore();
+
+        // 7-2. 「風味筆記」膠囊與文字（絕對垂直置中）
+        drawRoundedRect(ctx, 68, 928, 132, 46, 23);
+        ctx.fillStyle = pal.badge;
+        ctx.fill();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 21px "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('風味筆記', 134, 951);
+
+        const tasteParts = drink.tasteDesc.split('。');
+        const tasteLine1 = (tasteParts[0] || drink.ingredients) + '。';
+        const tasteLine2 = tasteParts[1] || '';
+
+        ctx.fillStyle = '#334155';
+        ctx.font = 'bold 24px "Noto Sans TC", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(tasteLine1, 222, 946);
+        if (tasteLine2) {
+          ctx.fillStyle = '#475569';
+          ctx.font = '500 23px "Noto Sans TC", sans-serif';
+          ctx.fillText(tasteLine2, 222, 984);
+        }
+
+        const link = document.createElement('a');
+        link.download = `一飲讀心-${drink.name}-今日心情飲品卡.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        showToast('📸 專屬心情飲品卡已單獨截取下載！');
+      } catch (err) {
+        showToast('截圖生成完成，請查看瀏覽器下載項目');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    function copyShareRecipe() {
+      const drink = DRINKS_DB[userState.selectedDrinkId] || DRINKS_DB.galaxy;
+      const rawTotal = drink.price + userState.toppingPrice + userState.boostPrice;
+      const totalPrice = Math.min(65, Math.max(60, rawTotal));
+      const shareText = `✨【一飲讀心 • 情緒補給所】今日心情飲品卡✨\n` +
+        `💭 今日心情：${userState.moodEmoji} ${userState.moodLabel}\n` +
+        `🍹 專屬特調：${drink.name}（NT$ ${totalPrice}）\n` +
+        `🌸 香氛配對：${drink.scentDesc}\n` +
+        `🎋 今日心情密語：${userState.currentFortune}\n` +
+        `#一飲讀心 #情緒補給所 #AI專屬特調`;
+
+      const tempInput = document.createElement('textarea');
+      tempInput.value = shareText;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      showToast('📋 已複製今日心情密語與專屬配方！');
+    }
+
+    // 頁面初次載入時初始化預設狀態
+    window.addEventListener('DOMContentLoaded', () => {
+      selectMood('relax', '😌', '放鬆平靜');
+      renderRecommendation('galaxy');
+    });
+  </script>
+
+<script id="v5-arcade-script">
+const Arcade = (()=>{
+  const IDS=['sunshine','galaxy','mint','peach'];
+  const ITEMS={orange:['柳橙','🍊'],passion:['百香果','🟡'],jasmine:['茉莉綠茶','🍵'],lavender:['薰衣草','🪻'],chamomile:['洋甘菊','🌼'],blueberry:['藍莓','🫐'],mintleaf:['薄荷','🌿'],lemon:['檸檬','🍋'],peachfruit:['水蜜桃','🍑'],rose:['玫瑰','🌹'],ceylon:['錫蘭紅茶','🫖']};
+  const RECIPES={sunshine:['orange','passion','jasmine'],galaxy:['lavender','chamomile','blueberry'],mint:['mintleaf','lemon','jasmine'],peach:['peachfruit','rose','ceylon']};
+  const LABELS={sunshine:'陽光果氣泡茶',galaxy:'星河放鬆茶',mint:'薄荷清醒綠',peach:'蜜桃微甜茶'};
+  const COLORS={sunshine:'#ffba5d',galaxy:'#a78bfa',mint:'#34d399',peach:'#f9a8d4'};
+  const ui=document.getElementById('v5-content');const app=document.getElementById('arcade-app'),classic=document.getElementById('app-shell');
+  const state={page:'home',id:null,stageScores:[0,0,0],started:false,cardShown:false,fortune:'',rank:'',fall:null,mem:null,mix:null};
+  let ticker=null,frame=null,lastTick=0,modalOpen=false;
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const rand=(lo,hi)=>Math.floor(Math.random()*(hi-lo+1))+lo;
+  function shuffled(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=rand(0,i);[b[i],b[j]]=[b[j],b[i]]}return b}
+  const item=id=>ITEMS[id]||[id,'●'];
+  const drink=()=>DRINKS_DB[state.id];
+  const ingredients=()=>RECIPES[state.id];
+  const icon=id=>item(id)[1];
+  const name=id=>item(id)[0];
+  const total=()=>state.stageScores.reduce((a,b)=>a+b,0);
+  function stopLoops(){if(ticker!==null)clearInterval(ticker);if(frame!==null)cancelAnimationFrame(frame);ticker=null;frame=null}
+  function screen(s){state.page=s;ui.scrollTop=0;}
+  const action=(s,fn)=>`<button class="v5-btn w-full" onclick="Arcade.${fn}()">${s}</button>`;
+  const quick=(t,d)=>`<div class="v5-card"><b class="text-sm">${t}</b><p class="v5-muted mt-1">${d}</p></div>`;
+  function shellClassic(yes){app.hidden=yes;classic.style.display=yes?'flex':'none'}
+  function boot(){stopLoops();shellClassic(false);renderHome()}
+  function backHome(){stopLoops();shellClassic(false);renderHome()}
+  function confirmHome(){if(['fall','memory','mix'].includes(state.page)){modal(`<h3 class="v5-title mb-2">確定離開本輪挑戰？</h3><p class="v5-muted mb-4">目前分數會清除。返回首頁後可重新抽取訂單。</p><div class="v5-grid2"><button class="v5-btn v5-secondary" onclick="Arcade.closeModal()">繼續遊戲</button><button class="v5-btn" onclick="Arcade.closeModal();Arcade.backHome()">離開遊戲</button></div>`)}else backHome()}
+  function classicMode(){stopLoops();shellClassic(true);if(typeof goToStep==='function')goToStep(1)}
+  function renderHome(){screen('home');ui.innerHTML=`<div class="v5-hero"><div class="v5-kicker">BUBBLE TEA ARCADE</div><div class="v5-big mt-3">今天，換你來當<br>極速特調師！</div><p class="text-sm mt-3 v5-white">接素材 × 記憶配方 × 極速調飲<br>挑戰三關，解鎖你的專屬成績盲盒</p><div class="text-6xl text-right mt-1">🧋✨</div></div><div class="mt-4 v5-grid2">${quick('🎮 街機遊戲','三種操作關卡，滿分 1,000 分')}${quick('🎁 盲盒獎勵','飲品卡、特調師稱號與趣味籤詩')}</div><div class="mt-5 space-y-3">${action('開始 V5 特調挑戰','intro')}<button class="v5-btn v5-secondary w-full" onclick="Arcade.classicMode()">進入原有五階段飲品推薦</button></div><p class="v5-muted mt-4 text-center" style="font-size:11px">遊戲是概念品牌體驗，不涉及真實訂購或情緒診斷。</p>`}
+  function intro(){screen('intro');ui.innerHTML=`<div class="text-center mb-4"><div class="v5-tag">HOW TO PLAY</div><h1 class="v5-title mt-2">特調師挑戰說明</h1><p class="v5-muted">三關玩法完全不同，準備接下一張神祕訂單！</p></div><div class="space-y-3">${quick('01　接素材｜反應挑戰','25 秒內移動杯子接住正確原料、避開干擾原料。滿分 300 分。')}${quick('02　記配方｜記憶挑戰','觀察配方 5 秒，再於 15 秒內選出三項正確原料。滿分 300 分。')}${quick('03　極速調飲｜操作挑戰','40 秒內依序加入正確素材，完成五次搖杯。滿分 400 分。')}</div><div class="v5-soft mt-4 text-sm"><b>公平規則</b><p class="v5-muted">四款飲品隨機抽一張訂單，全程使用同一配方。成績影響稱號，不改變抽到的飲品。</p></div><div class="mt-5">${action('抽取今天的神祕訂單','newOrder')}</div>`}
+  function newOrder(){stopLoops();state.id=IDS[rand(0,3)];state.stageScores=[0,0,0];state.started=false;state.cardShown=false;state.fortune='';state.rank='';screen('order');ui.innerHTML=`<div class="text-center"><span class="v5-tag">NEW ORDER</span><h2 class="v5-title mt-2">神祕訂單已送達！</h2></div><div class="v5-order mt-4"><div class="text-6xl mb-2">${drink().icon}</div><p class="v5-muted">本次指定飲品</p><h2 class="v5-title mt-2">${esc(drink().name)}</h2><p class="v5-muted mt-2">${esc(drink().ingredients)}</p><p class="font-black text-xl text-purple-700 mt-3">NT$${drink().price}</p></div><div class="v5-soft mt-4"><div class="text-xs font-black text-purple-800">必須記得的原料</div><div class="v5-grid3 mt-2">${ingredients().map(id=>`<div class="v5-card text-center" style="padding:10px 2px"><div class="text-2xl">${icon(id)}</div><div class="text-xs font-bold mt-1">${name(id)}</div></div>`).join('')}</div></div><div class="mt-4">${action('接受訂單・開始第一關','startFall')}</div>`}
+  function newFall(){const correct=ingredients();const incorrect=Object.keys(ITEMS).filter(x=>!correct.includes(x));return{score:0,combo:0,comboBonus:0,events:shuffled([...Array.from({length:8},(_,i)=>({id:correct[i%3],good:true})),...shuffled(incorrect).slice(0,4).map(id=>({id,good:false}))]),objects:[],launched:0,handled:0,start:performance.now(),previous:performance.now(),x:0.5,completed:false,feedback:''}}
+  function hud(level,score,max,left){return `<div class="flex items-center justify-between mb-2"><div><span class="v5-tag">LEVEL ${level} / 03</span><span class="text-xs font-black ml-2">${['','風味接接樂','配方記憶賽','極速特調師'][level]}</span></div><span class="font-black text-lg text-purple-700" id="v5-clock">${left}</span></div><div class="v5-grid2 mb-3"><div class="v5-stat"><div class="text-xs text-slate-500">本關分數</div><div class="text-lg font-black" id="v5-points">${score} / ${max}</div></div><div class="v5-stat"><div class="text-xs text-slate-500">指定訂單</div><div class="text-xs font-black mt-1">${esc(drink().name)}</div></div></div>`}
+  function startFall(){stopLoops();state.fall=newFall();screen('fall');ui.innerHTML=hud(1,0,300,'25s')+`<p class="v5-muted mb-2">移動杯子接住 ${ingredients().map(name).join('、')}；避開其他素材</p><div class="v5-stage" id="v5-catch-stage"><div class="v5-player" id="v5-catch-player" aria-label="接料杯">🧋</div></div><div class="flex justify-between text-xs font-black text-purple-700 mt-3"><span id="v5-combo">0 COMBO</span><span id="v5-fall-count">已判定 0 / 12</span></div><div class="v5-grid2 mt-3"><button class="v5-btn v5-secondary" id="v5-left" style="touch-action:none" aria-label="杯子往左">← 左移</button><button class="v5-btn v5-secondary" id="v5-right" style="touch-action:none" aria-label="杯子往右">右移 →</button></div><p class="v5-muted mt-2" style="font-size:11px">手機可左右拖曳杯子；電腦可用滑鼠、左右方向鍵或按鈕。</p>`;
+    const board=document.getElementById('v5-catch-stage');const f=state.fall;
+    const setX=e=>{const box=board.getBoundingClientRect();f.x=Math.min(.92,Math.max(.08,(e.clientX-box.left)/box.width));playerPosition()};
+    board.addEventListener('pointerdown',e=>{board.setPointerCapture(e.pointerId);setX(e)});board.addEventListener('pointermove',e=>{if(e.pointerType==='mouse'||e.buttons)setX(e)});
+    [['v5-left',-1],['v5-right',1]].forEach(([id,dir])=>{let repeater=null;const b=document.getElementById(id);const move=()=>{f.x=Math.min(.92,Math.max(.08,f.x+dir*.075));playerPosition()};b.addEventListener('pointerdown',e=>{e.preventDefault();move();repeater=setInterval(move,90);b.setPointerCapture(e.pointerId)});const stop=()=>{if(repeater!==null)clearInterval(repeater);repeater=null};b.addEventListener('pointerup',stop);b.addEventListener('pointercancel',stop);b.addEventListener('lostpointercapture',stop)});
+    playerPosition();lastTick=performance.now();frame=requestAnimationFrame(loopFall);
+  }
+  function playerPosition(){const el=document.getElementById('v5-catch-player');if(el&&state.fall)el.style.left=state.fall.x*100+'%'}
+  function keyboard(e){if(state.page!=='fall'||!state.fall)return;if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();state.fall.x=Math.max(.08,Math.min(.92,state.fall.x+(e.key==='ArrowLeft'?-0.08:0.08)));playerPosition()}}
+  document.addEventListener('keydown',keyboard);
+  function spawnFall(f,board){if(f.launched>=12)return;const datum=f.events[f.launched++];let x=.12+Math.random()*.76;const el=document.createElement('div');el.className='v5-fall '+(datum.good?'good':'bad');el.textContent=icon(datum.id)+' '+name(datum.id);board.appendChild(el);f.objects.push({...datum,x,y:-38,element:el,finished:false})}
+  function settleFall(obj,caught){const f=state.fall;if(obj.finished||f.completed)return;obj.finished=true;obj.element.remove();f.handled++;if(obj.good){if(caught){f.score+=25;f.combo++;if(f.combo%3===0&&f.comboBonus<2){f.comboBonus++;f.score+=20}}else f.combo=0}else if(caught){f.score=Math.max(0,f.score-15);f.combo=0}else{f.score+=15};f.score=Math.min(300,Math.max(0,f.score));document.getElementById('v5-points').textContent=f.score+' / 300';document.getElementById('v5-combo').textContent=f.combo+' COMBO';document.getElementById('v5-fall-count').textContent=`已判定 ${f.handled} / 12`}
+  function loopFall(now){const f=state.fall;if(state.page!=='fall'||!f||f.completed)return;const elapsed=(now-f.start)/1000;const board=document.getElementById('v5-catch-stage');if(!board)return;const w=board.clientWidth,h=board.clientHeight;
+    while(f.launched<12&&elapsed>=.5+f.launched*1.53)spawnFall(f,board);
+    const dt=Math.min(.06,(now-f.previous)/1000);f.previous=now;
+    for(const o of f.objects){if(o.finished)continue;o.y+=h/2.9*dt;o.element.style.left=o.x*100+'%';o.element.style.top=o.y+'px';const hit=o.y>=h-76 && Math.abs(o.x-f.x)*w<62;if(hit){settleFall(o,true);continue}if(o.y>h+30)settleFall(o,false)}
+    document.getElementById('v5-clock').textContent=Math.max(0,Math.ceil(25-elapsed))+'s';
+    if(elapsed>=25){f.objects.forEach(o=>{if(!o.finished)settleFall(o,false)});finishFall();return}frame=requestAnimationFrame(loopFall)
+  }
+  function finishFall(){stopLoops();const f=state.fall;if(f.completed)return;f.completed=true;state.stageScores[0]=Math.min(300,Math.max(0,f.score));screen('fallDone');ui.innerHTML=`<div class="text-center mt-6"><div class="v5-stars">🎯</div><h2 class="v5-title mt-3">第一關結束</h2><div class="text-4xl font-black text-purple-700 mt-3">${state.stageScores[0]} <span class="text-sm">/ 300</span></div><p class="v5-muted mt-3">反應挑戰已完成。下一關要記住這杯飲品的配方。</p></div><div class="v5-soft mt-6">正確素材：${ingredients().map(name).join('、')}<br><span class="v5-muted">連擊獎勵最高 40 分；避開干擾素材也可得分。</span></div><div class="mt-5">${action('進入第二關：配方記憶賽','startMemory')}</div>`}
+  function memoryOptions(){const c=ingredients();return shuffled([...c,...shuffled(Object.keys(ITEMS).filter(x=>!c.includes(x))).slice(0,3)])}
+  function startMemory(){stopLoops();state.mem={phase:'show',selected:[],options:memoryOptions(),count:5,answerStart:0,score:0,done:false};screen('memory');renderMemory();ticker=setInterval(()=>{const m=state.mem;if(!m||m.done)return;m.count--;if(m.count<=0){if(m.phase==='show'){m.phase='answer';m.count=15;m.answerStart=performance.now()}else{submitMemory();return}}renderMemory()},1000)}
+  function renderMemory(){const m=state.mem;ui.innerHTML=hud(2,m.score,300,m.count+'s')+(m.phase==='show'?`<div class="v5-soft text-center mb-3"><h2 class="v5-title">請記住這三項正式配方</h2><p class="v5-muted">5 秒後素材會重新排列</p></div><div class="v5-grid3">${ingredients().map(id=>`<div class="v5-card text-center"><div class="text-3xl">${icon(id)}</div><div class="text-xs font-black mt-2">${name(id)}</div></div>`).join('')}</div>`:`<div class="v5-soft mb-3"><div class="font-black">剛剛出現哪三種素材？</div><div class="v5-muted">選擇三張素材卡，提早答對還有速度獎勵。</div></div><div class="v5-grid3">${m.options.map(id=>`<button class="v5-choice ${m.selected.includes(id)?'selected':''}" onclick="Arcade.pickMemory('${id}')" aria-pressed="${m.selected.includes(id)}"><div class="text-2xl">${icon(id)}</div>${name(id)}</button>`).join('')}</div><p class="v5-muted mt-3">已選：${m.selected.length} / 3</p><button class="v5-btn w-full mt-4" onclick="Arcade.submitMemory()" ${m.selected.length?'':'disabled'}>確認配方答案</button>`)}
+  function pickMemory(id){const m=state.mem;if(!m||m.phase!=='answer'||m.done)return;if(m.selected.includes(id))m.selected=m.selected.filter(x=>x!==id);else if(m.selected.length<3)m.selected.push(id);if(m.selected.length===3)submitMemory();else renderMemory()}
+  function submitMemory(){const m=state.mem;if(!m||m.done)return;stopLoops();m.done=true;const count=m.selected.filter(x=>ingredients().includes(x)).length;const perfect=count===3&&m.selected.length===3;const duration=m.answerStart?(performance.now()-m.answerStart)/1000:99;m.score=Math.min(300,80*count+(perfect?30:0)+(perfect&&duration<=8?30:0));state.stageScores[1]=m.score;screen('memoryDone');ui.innerHTML=`<div class="text-center mt-4"><div class="v5-stars">🧠</div><h2 class="v5-title mt-2">記憶挑戰結束</h2><div class="text-4xl text-purple-700 font-black mt-3">${m.score}<span class="text-sm"> / 300</span></div><p class="v5-muted mt-2">答對 ${count} / 3 項${perfect&&duration<=8?'，獲得極速全對獎勵！':perfect?'，配方全對！':'，可以繼續挑戰下一關。'}</p></div><div class="v5-soft mt-5"><b>本次正確配方</b><div class="v5-grid3 mt-3">${ingredients().map(id=>`<div class="v5-card text-center text-xs"><div class="text-2xl">${icon(id)}</div>${name(id)}</div>`).join('')}</div></div><div class="mt-5">${action('進入第三關：極速調飲師','startMix')}</div>`}
+  function mixCandidates(){const c=ingredients();return shuffled([...c,...shuffled(Object.keys(ITEMS).filter(x=>!c.includes(x))).slice(0,3)])}
+  function startMix(){stopLoops();state.mix={start:performance.now(),remain:40,added:[],stepMistake:false,correct:0,order:0,shakes:0,finished:false,candidates:mixCandidates(),notice:'請投入第一項訂單素材。'};screen('mix');renderMix();ticker=setInterval(()=>{const m=state.mix;if(!m||m.finished)return;m.remain=Math.max(0,40-(performance.now()-m.start)/1000);const t=document.getElementById('v5-clock');if(t)t.textContent=Math.ceil(m.remain)+'s';if(m.remain<=0)finishMix()},120)}
+  function mixScore(preview=true){const m=state.mix;const base=m.correct*60+m.order*30+m.shakes*16;const bonus=(!preview&&m.shakes>=5)?Math.floor(50*m.remain/40):0;return Math.min(400,Math.max(0,base+bonus))}
+  function renderMix(){const m=state.mix;const needed=ingredients()[m.added.length];ui.innerHTML=hud(3,mixScore(),400,Math.ceil(m.remain)+'s')+`<div class="v5-soft mb-3"><div class="text-xs font-black">正確配方順序</div><p class="text-xs mt-1 font-semibold">${ingredients().map((id,i)=>`${i+1}. ${name(id)}`).join('　')}</p></div><div class="v5-cupzone" id="v5-dropzone"><div class="v5-cup ${m.added.length?'active':''}" id="v5-mix-cup">一飲讀心</div><div class="text-xs font-bold" id="v5-mix-instruction">${m.added.length<3?'目前步驟：'+name(needed):'素材完成！請搖杯五次'}</div><div class="text-xs text-purple-700" id="v5-mix-status">${m.notice}</div></div><div class="v5-grid3 mt-3" id="v5-mix-ingredients">${m.candidates.map(id=>`<button type="button" class="v5-ingredient ${m.added.includes(id)?'used':''}" ${m.added.includes(id)?'disabled':''} data-ingredient="${id}" onclick="Arcade.addMix('${id}')"><span class="symbol">${icon(id)}</span>${name(id)}</button>`).join('')}</div><div class="v5-card mt-3"><div class="flex justify-between text-xs font-black"><span>搖杯進度</span><span>${m.shakes} / 5</span></div><div class="v5-progress mt-2"><div style="width:${m.shakes/5*100}%"></div></div><button type="button" class="v5-btn w-full mt-3" onclick="Arcade.shake()" ${m.added.length!==3?'disabled':''}>🥤 搖一下（亦可左右滑動杯子）</button></div><p class="v5-muted mt-2" style="font-size:11px">可拖曳素材入杯，或點選素材；選錯可更正，但該步驟無順序加分。</p>`;
+   document.querySelectorAll('.v5-ingredient:not(:disabled)').forEach(el=>{el.addEventListener('pointerdown',event=>{if(event.pointerType==='mouse'&&event.button!==0)return;el.dataset.startX=event.clientX;el.dataset.startY=event.clientY;el.setPointerCapture(event.pointerId)});el.addEventListener('pointerup',event=>{const startY=Number(el.dataset.startY);const moved=Math.abs(event.clientY-startY)>28;if(moved){event.preventDefault();event.stopPropagation();const z=document.getElementById('v5-dropzone').getBoundingClientRect();if(event.clientX>=z.left&&event.clientX<=z.right&&event.clientY>=z.top&&event.clientY<=z.bottom)addMix(el.dataset.ingredient)}})});
+   const zone=document.getElementById('v5-dropzone');let sx=null;zone.addEventListener('pointerdown',e=>{sx=e.clientX});zone.addEventListener('pointerup',e=>{if(sx!==null && Math.abs(e.clientX-sx)>45){shake()};sx=null});
+  }
+  function addMix(id){const m=state.mix;if(state.page!=='mix'||!m||m.finished||m.added.length>=3||m.added.includes(id))return;if(!ingredients().includes(id)){m.stepMistake=true;m.notice='這不是訂單素材，請重新選擇。';renderMix();return}const expected=ingredients()[m.added.length];m.correct++;if(id===expected&&!m.stepMistake)m.order++;m.added.push(id);m.stepMistake=false;m.notice=id===expected?'素材投入成功！':'素材正確，但投入順序不同。';renderMix()}
+  function shake(){const m=state.mix;if(state.page!=='mix'||!m||m.finished||m.added.length!==3)return;m.shakes=Math.min(5,m.shakes+1);if(m.shakes>=5){finishMix();return}renderMix();const cup=document.getElementById('v5-mix-cup');if(cup)cup.classList.add('v5-shake')}
+  function finishMix(){const m=state.mix;if(!m||m.finished)return;m.remain=Math.max(0,40-(performance.now()-m.start)/1000);m.finished=true;stopLoops();state.stageScores[2]=mixScore(false);screen('mixDone');ui.innerHTML=`<div class="text-center mt-4"><div class="v5-stars">🧋</div><h2 class="v5-title mt-2">極速調飲結束！</h2><div class="text-4xl font-black text-purple-700 mt-3">${state.stageScores[2]} <span class="text-sm">/ 400</span></div></div><div class="v5-soft mt-5 space-y-2"><div class="flex justify-between text-sm"><span>素材正確</span><b>${m.correct} / 3</b></div><div class="flex justify-between text-sm"><span>首次依序完成</span><b>${m.order} / 3</b></div><div class="flex justify-between text-sm"><span>搖杯</span><b>${m.shakes} / 5</b></div></div><div class="mt-5">${action('查看總成績與特調師稱號','result')}</div>`}
+  function getRank(score){return score>=900?['傳奇特調師','👑','#c08433']:score>=750?['黃金特調師','🏆','#a855f7']:score>=500?['人氣特調師','🎖️','#0d9488']:['見習特調師','🧋','#64748b']}
+  function result(){stopLoops();screen('result');const score=total();state.rank=getRank(score)[0];ui.innerHTML=`<div class="text-center"><div class="v5-stars">${getRank(score)[1]}</div><h2 class="v5-title mt-3">任務結算完成</h2><p class="v5-muted mt-1">你的特調師總成績</p><div class="text-5xl font-black text-purple-700 my-3">${score}<span class="text-sm text-slate-500"> / 1,000</span></div><div class="v5-tag">${state.rank}</div></div><div class="v5-card space-y-3 mt-5">${['風味接接樂','配方記憶賽','極速特調師'].map((x,i)=>`<div><div class="flex justify-between text-sm font-bold"><span>${x}</span><span>${state.stageScores[i]} / ${[300,300,400][i]}</span></div><div class="v5-progress mt-1"><div style="width:${state.stageScores[i]/[300,300,400][i]*100}%"></div></div></div>`).join('')}</div><div class="v5-soft mt-4 text-center"><div class="text-6xl">🎁</div><b class="block mt-2">${state.rank}・成績盲盒</b><p class="v5-muted">解鎖本輪「${drink().name}」飲品卡與趣味籤詩。</p></div><div class="mt-5">${action('開啟我的獎勵盲盒','openGift')}</div>`}
+  function openGift(){screen('gift');if(!state.fortune)state.fortune=drink().fortunes[rand(0,drink().fortunes.length-1)];ui.innerHTML=`<div class="text-center"><div class="v5-gift">🎁</div><h2 class="v5-title mt-2">你的特調盲盒已開啟！</h2><p class="v5-muted">本輪訂單完成，飲品結果不因分數改變。</p></div><div class="v5-result-card mt-4 text-center"><div class="text-6xl">${drink().icon}</div><h2 class="v5-title mt-2">${esc(drink().name)}</h2><p class="v5-muted mt-1">${esc(drink().ingredients)}</p><div class="font-black text-purple-800 mt-2">NT$${drink().price}</div><div class="v5-card mt-4"><span class="v5-tag">${state.rank} · ${total()} 分</span><div class="text-xs font-black text-purple-800 mt-3 mb-1">今日趣味籤詩</div><div class="text-sm font-semibold leading-relaxed text-purple-800">${esc(state.fortune)}</div><p class="v5-muted mt-2" style="font-size:10px">僅供娛樂與分享，不代表對真實情緒或未來的預測。</p></div></div><div class="mt-4 space-y-3">${action('下載成績飲品卡','downloadCard')}<button class="v5-btn v5-secondary w-full" onclick="Arcade.copyShare()">複製分享文字</button><div class="v5-grid2"><button class="v5-btn v5-secondary" onclick="Arcade.intro()">重新挑戰</button><button class="v5-btn v5-secondary" onclick="Arcade.backHome()">品牌首頁</button></div></div>`}
+  function shareText(){return `【一飲讀心・極速特調盲盒】\n我的特調師稱號：${state.rank}\n遊戲總分：${total()} / 1000\n指定特調：${drink().name}（NT$${drink().price}）\n配方：${drink().ingredients}\n今日趣味籤詩：${state.fortune}\n#一飲讀心 #極速特調盲盒`}
+  function modal(html){modalOpen=true;document.getElementById('v5-modal-body').innerHTML=html;document.getElementById('v5-modal').hidden=false}
+  function closeModal(){modalOpen=false;document.getElementById('v5-modal').hidden=true}
+  async function copyShare(){const s=shareText();try{if(!navigator.clipboard||!navigator.clipboard.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(s);showToast('分享文字已複製');return}catch(err){}try{const area=document.createElement('textarea');area.value=s;area.style.position='fixed';area.style.left='-9999px';document.body.appendChild(area);area.focus();area.select();const ok=document.execCommand('copy');area.remove();if(ok){showToast('分享文字已複製');return}}catch(err){}modal(`<h2 class="v5-title mb-2">手動複製分享文字</h2><p class="v5-muted">瀏覽器限制了自動複製，請全選下方文字後按 Ctrl+C，手機可長按複製。</p><textarea id="v5-copy-text" class="w-full rounded-xl border p-3 mt-3" style="min-height:170px;font-size:13px">${esc(s)}</textarea><button class="v5-btn w-full mt-2" onclick="document.getElementById('v5-copy-text').focus();document.getElementById('v5-copy-text').select()">全選文字</button>`)}
+  function downloadCard(){const d=drink();const canvas=document.createElement('canvas');canvas.width=900;canvas.height=1320;const c=canvas.getContext('2d');const g=c.createLinearGradient(0,0,900,1320);g.addColorStop(0,'#f6d7fa');g.addColorStop(.52,'#f5e9ff');g.addColorStop(1,'#d8f1ff');c.fillStyle=g;c.fillRect(0,0,900,1320);
+    c.fillStyle='#6b21a8';c.textAlign='center';c.font='bold 52px sans-serif';c.fillText('一飲讀心',450,112);c.font='bold 26px sans-serif';c.fillText('極速特調盲盒  ·  ARCADE V5',450,162);
+    c.fillStyle='white';roundRect(c,73,210,754,862,36);c.fill();c.fillStyle=COLORS[state.id];c.beginPath();c.arc(450,420,138,0,Math.PI*2);c.fill();c.font='bold 124px sans-serif';c.fillStyle='#ffffff';c.fillText('🧋',450,455);
+    c.fillStyle='#4c1d95';c.font='bold 55px sans-serif';c.fillText(d.name,450,650);c.font='bold 27px sans-serif';c.fillText(d.ingredients.replace(/ × /g,'  ·  '),450,712);c.font='bold 32px sans-serif';c.fillText('NT$'+d.price,450,769);
+    c.font='bold 41px sans-serif';c.fillText(state.rank+'  ·  '+total()+' / 1000 分',450,844);c.font='bold 26px sans-serif';c.fillText('今日趣味籤詩',450,913);c.font='24px sans-serif';const lines=wrapCanvasText(c,state.fortune.replace(/[「」]/g,''),630);lines.slice(0,4).forEach((x,i)=>c.fillText(x,450,954+i*38));c.font='22px sans-serif';c.fillStyle='#766a96';c.fillText('概念體驗｜籤詩僅供娛樂分享',450,1147);c.font='bold 24px sans-serif';c.fillText('#一飲讀心  #極速特調盲盒',450,1225);
+    canvas.toBlob(blob=>{if(!blob){showToast('圖片產生失敗，可改用複製分享文字');return}const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='一飲讀心_V5_'+state.id+'_成績飲品卡.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000)},'image/png')
+  }
+  function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+  function wrapCanvasText(ctx,s,max){let result=[],line='';for(const ch of s){if(ctx.measureText(line+ch).width>max){result.push(line);line=ch}else line+=ch}if(line)result.push(line);return result}
+  // Global key navigation remains separate from original mode.
+  window.addEventListener('DOMContentLoaded',boot);
+  return {boot,backHome,confirmHome,classicMode,intro,newOrder,startFall,startMemory,pickMemory,submitMemory,startMix,addMix,shake,result,openGift,downloadCard,copyShare,closeModal,
+    getDebugState:()=>({page:state.page,id:state.id,scores:[...state.stageScores],total:total(),fall:state.fall?{launched:state.fall.launched,handled:state.fall.handled,score:state.fall.score}:null,mem:state.mem?{phase:state.mem.phase,score:state.mem.score}:null,mix:state.mix?{added:[...state.mix.added],shakes:state.mix.shakes,correct:state.mix.correct,order:state.mix.order}:null})};
+})();
+</script>
+
+<script id="v5-classic-copy-fix">
+// Keep all five original recommendation steps; add reliable clipboard fallback only.
+copyShareRecipe = async function(){
+  const d=DRINKS_DB[userState.selectedDrinkId]||DRINKS_DB.galaxy;
+  const price=Math.min(65,Math.max(60,d.price+userState.toppingPrice+userState.boostPrice));
+  const s=`【一飲讀心・情緒補給所】今日心情飲品卡\n今日心情：${userState.moodEmoji} ${userState.moodLabel}\n專屬特調：${d.name}（NT$${price}）\n香氣風味：${d.scentDesc}\n今日趣味籤詩：${userState.currentFortune}\n#一飲讀心 #情緒補給所`;
+  try{if(!navigator.clipboard?.writeText)throw Error('not available');await navigator.clipboard.writeText(s);showToast('分享文字已複製');return}catch(e){}
+  try{const a=document.createElement('textarea');a.value=s;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();const ok=document.execCommand('copy');a.remove();if(ok){showToast('分享文字已複製');return}}catch(e){}
+  const modal=document.getElementById('v5-modal');document.getElementById('v5-modal-body').innerHTML='<h2 class="v5-title">手動複製文字</h2><p class="v5-muted mt-2">請全選下方文字後按 Ctrl+C；手機可長按複製。</p><textarea id="v5-copy-text" class="w-full" style="width:100%;height:180px;border:1px solid #ddd6fe;border-radius:12px;margin-top:12px;padding:10px"></textarea><button class="v5-btn w-full mt-3" onclick="document.getElementById(\'v5-copy-text\').focus();document.getElementById(\'v5-copy-text\').select()">全選文字</button>';document.getElementById('v5-copy-text').value=s;modal.hidden=false;
+};
+</script>
+</body>
+</html>
